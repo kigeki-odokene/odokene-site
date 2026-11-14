@@ -1,6 +1,44 @@
 ---
 import copy from '../data/copy.json';
+import site from '../data/site.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
+const profile = copy.about.profile || {};
+const dmHandle = '@' + String(site.xHandle || 'muen_saltless').replace(/^@/, '');
+const dmUrl = `https://x.com/${dmHandle.slice(1)}`;
 ---
-<BaseLayout title="ODOKENEについて"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>ODOKENEについて</h1><p>{copy.about.intro}</p></div>
-<section class="subsection"><div class="section-aside"><h2>MIXについて</h2></div><div class="section-body"><p>{copy.about.approach1}</p><p>{copy.about.approach2}</p></div></section><section class="subsection"><div class="section-aside"><h2>担当</h2></div><div class="section-body"><p>奇劇 / kigeki</p></div></section></div></BaseLayout>
+<BaseLayout title="自己紹介・ODOKENEについて">
+  <div class="shell subpage">
+    <div class="page-intro">
+      <p class="small-label">ABOUT</p>
+      <h1>自己紹介</h1>
+      <p>{copy.about.intro}</p>
+    </div>
+    <section class="subsection">
+      <div class="section-aside"><h2>プロフィール</h2></div>
+      <div class="section-body">
+        <div class="about-profile">
+          {profile.image && <img class="about-profile-image" src={profile.image} alt={profile.imageAlt || `${profile.name || 'プロフィール'}の画像`} loading="lazy" />}
+          <div>
+            <h3>{profile.name || site.creator}</h3>
+            {profile.role && <p class="about-profile-role">{profile.role}</p>}
+            {profile.bio && <p class="about-profile-bio">{profile.bio}</p>}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="subsection">
+      <div class="section-aside"><h2>MIXについて</h2></div>
+      <div class="section-body"><p>{copy.about.approach1}</p><p>{copy.about.approach2}</p></div>
+    </section>
+    {profile.activities && <section class="subsection">
+      <div class="section-aside"><h2>活動・経歴</h2></div>
+      <div class="section-body"><p class="about-profile-bio">{profile.activities}</p></div>
+    </section>}
+    <section class="subsection">
+      <div class="section-aside"><h2>お問い合わせ</h2></div>
+      <div class="section-body"><p>ご依頼やご質問は、フォームまたはXのDMからどうぞ。</p>
+        <p class="quiet-link"><a href="/contact/">依頼フォーム</a> <a href={dmUrl} target="_blank" rel="noopener noreferrer">XのDM（{dmHandle}）</a></p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
