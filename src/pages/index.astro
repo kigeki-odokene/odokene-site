@@ -1,0 +1,65 @@
+---
+import copy from '../data/copy.json';
+import pricing from '../data/pricing.json';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import works from '../data/works.json';
+import WorkCard from '../components/WorkCard.astro';
+const allWorks = works.works || [];
+const featured = allWorks.find(w => w.featured) ?? allWorks[0];
+const moreWorks = allWorks.filter(w => w !== featured).slice(0,3);
+const ytId=featured?.youtubeUrl.match(/(?:v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{11})/)?.[1];
+const heroThumb = featured?.thumbnail?.trim() || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : '');
+---
+<BaseLayout title="ODOKENE｜歌ってみたMIXのご依頼">
+<div class="shell homepage">
+  <div class="hello-area">
+    <div class="hello-copy">
+      <h1>{copy.home.title}</h1>
+      <p class="intro">{copy.home.intro1}</p>
+      <p class="intro">{copy.home.intro2a}<br/>{copy.home.intro2b}</p>
+      <p class="intro-link"><a href="/contact/">依頼フォーム</a><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">XのDM</a></p>
+    </div>
+    <section class="hello-work" id="works">
+      <div class="piece-top"><h2>{copy.home.worksTitle}</h2><a href="/works/">一覧を見る</a></div>
+      {featured && <div class="featured-row">
+        <a href={featured.youtubeUrl} class="work-visual" target="_blank" rel="noopener noreferrer" aria-label={`${featured.title}をYouTubeで見る`}>
+          <div class="work-fallback"><span class="work-fallback-title">{featured.title}</span><span class="work-fallback-credit">歌：{featured.cover}</span></div>
+          {heroThumb && <img src={heroThumb} alt={`${featured.title}の動画サムネイル`} loading="eager" fetchpriority="high" decoding="async" onerror="this.hidden=true"/>}
+          <span class="thumb-play" aria-hidden="true">▶</span>
+        </a>
+        <div class="featured-info">
+          <h3>{featured.title}</h3>
+          <p>原曲：{featured.original}</p>
+          <p>歌：{featured.cover}</p>
+          <p>担当：{(featured.credits || []).join(' / ') || 'MIX'}（ODOKENE）</p>
+          <p><a href={featured.youtubeUrl} target="_blank" rel="noopener noreferrer">YouTubeで見る</a></p>
+        </div>
+      </div>}
+    </section>
+  </div>
+  {moreWorks.length > 0 && <section class="more-works" aria-label="その他の制作実績">
+    <div class="more-works-head"><h2>{copy.home.otherWorksTitle}</h2><a href="/works/">一覧を見る</a></div>
+    <div class="more-works-list">{moreWorks.map(work => <WorkCard work={work} size="small" />)}</div>
+  </section>}
+  <section class="home-part rates" id="price">
+    <div class="section-aside"><h2>{copy.home.ratesTitle}</h2><p class="aside-hint">{copy.home.ratesLabel}</p></div>
+    <div class="section-body">
+      <div class="primary-prices"><div><span>ワンコーラス</span><strong>{pricing.one.base.toLocaleString('ja-JP')}<small>円</small></strong></div><div><span>フルコーラス</span><strong>{pricing.full.base.toLocaleString('ja-JP')}<small>円</small></strong></div></div>
+      <p class="fine">{copy.home.ratesNote}</p>
+      <h3 class="minor-head">{copy.home.optionsTitle}</h3>
+      <dl class="small-rates"><div><dt>ボーカル追加（ワンコーラス・1名）</dt><dd>＋{pricing.one.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ボーカル追加（フルコーラス・1名）</dt><dd>＋{pricing.full.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ生成</dt><dd>＋{pricing.harmony.generate.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ作成・アレンジ</dt><dd>＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円</dd></div><div><dt>72時間以内の初回納品</dt><dd>＋{pricing.rush['72h'].toLocaleString('ja-JP')}円</dd></div><div><dt>24時間以内の初回納品</dt><dd>＋{pricing.rush['24h'].toLocaleString('ja-JP')}円</dd></div></dl>
+      <p class="quiet-link"><a href="/price/">料金の詳細・概算計算</a></p>
+    </div>
+  </section>
+  <section class="home-part flow-part" id="flow">
+    <div class="section-aside"><h2>{copy.home.flowTitle}</h2></div>
+    <div class="section-body"><ol class="steps">{copy.home.flowSteps.map((step,i)=><li><span class="step-number">{i+1}</span><div><b>{step.title}</b><p>{step.text}</p></div></li>)}</ol>
+    <p class="quiet-link"><a href="/flow/">依頼の流れ</a></p></div>
+  </section>
+  <section class="home-part notes-part">
+    <div class="section-aside"><h2>{copy.home.notesTitle}</h2></div>
+    <div class="section-body"><p>{copy.home.notes1}</p><p class="fine">{copy.home.notes2}</p><p class="quiet-link"><a href="/faq/">注意事項・よくある質問</a></p></div>
+  </section>
+  <section class="home-part last-part"><div class="section-aside"><h2>{copy.home.contactTitle}</h2></div><div class="section-body"><p>{copy.home.contact1}<br/>{copy.home.contact2}</p><p class="end-links"><a href="/contact/">依頼フォーム</a><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">XのDM（@kigeki_odokene）</a></p></div></section>
+</div>
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+const { work, size = 'regular' } = Astro.props;
+const id = work.youtubeUrl?.match(/(?:v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{11})/)?.[1];
+const thumb = work.thumbnail?.trim() || (id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
+---
+<article class:list={['work-entry',size === 'small' && 'work-entry--small']}>
+  <a class="work-visual" href={work.youtubeUrl} target="_blank" rel="noopener noreferrer" aria-label={`${work.title}をYouTubeで見る`}>
+    <div class="work-fallback">
+      <span class="work-fallback-label">YouTube</span>
+      <span class="work-fallback-title">{work.title}</span>
+      <span class="work-fallback-credit">歌：{work.cover}</span>
+    </div>
+    {thumb && <img src={thumb} alt={`${work.title}の動画サムネイル`} loading="lazy" decoding="async" onerror="this.hidden=true"/>}
+    <span class="thumb-play" aria-hidden="true">▶</span>
+  </a>
+  <p class="song-title">{work.title} <a class="song-link" href={work.youtubeUrl} target="_blank" rel="noopener noreferrer">YouTube ↗</a></p>
+  <p class="song-caption">原曲：{work.original} ／ 歌：{work.cover}</p>
+  <p class="song-credit">担当：{(work.credits || []).join('、')}</p>
+</article>
