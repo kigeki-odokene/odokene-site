@@ -267,6 +267,7 @@ collections:
     - {label: ワンコーラス, name: one, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
     - {label: フルコーラス, name: full, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
     - {label: ハモリ生成の追加料金, name: harmony, widget: object, fields: [{label: ハモリなし, name: none, widget: number, value_type: int, min: 0}, {label: ハモリ生成, name: generate, widget: number, value_type: int, min: 0}]}
+    - {label: 動画エンコードの追加料金（権利処理済み映像・1本）, name: video, widget: object, fields: [{label: 動画納品なし, name: none, widget: number, value_type: int, min: 0}, {label: 動画エンコード・音源差し替え, name: encode, widget: number, value_type: int, min: 0}]}
     - {label: お急ぎ・超特急の追加料金（1名あたり／超特急は概算）, name: rush, widget: object, fields: [{label: 通常, name: normal, widget: number, value_type: int, min: 0}, {label: お急ぎ（72時間・1人あたり）, name: '72h', widget: number, value_type: int, min: 0}, {label: 超特急（24時間希望・1人あたり概算）, name: '24h', widget: number, value_type: int, min: 0}]}
     - {label: ボーカル人数の上限, name: maxSingers, widget: number, value_type: int, min: 1, max: 16}
     - label: 納期の設定
