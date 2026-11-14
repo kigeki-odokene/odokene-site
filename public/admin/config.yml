@@ -229,6 +229,17 @@ collections:
       - label: 制作について 2
         name: approach2
         widget: text
+      - label: 自己紹介・プロフィール
+        name: profile
+        widget: object
+        collapsed: false
+        fields:
+        - {label: 表示名, name: name, widget: string}
+        - {label: 肩書き・活動内容（短文）, name: role, widget: string, required: false}
+        - {label: 自己紹介文, name: bio, widget: text, required: false}
+        - {label: 活動・経歴（任意）, name: activities, widget: text, required: false}
+        - {label: プロフィール画像（任意）, name: image, widget: image, required: false}
+        - {label: 画像の説明（任意）, name: imageAlt, widget: string, required: false}
     - label: よくある質問・注意事項
       name: faq
       widget: object
