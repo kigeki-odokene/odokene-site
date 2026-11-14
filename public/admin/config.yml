@@ -278,7 +278,7 @@ collections:
       - {label: 通常納期の最長日数（1名）, name: normalMaxDays, widget: number, value_type: int, min: 1}
       - {label: 72時間オプションの基準時間（1名）, name: rush72Hours, widget: number, value_type: int, min: 1}
       - {label: 24時間オプションの基準時間（1名）, name: rush24Hours, widget: number, value_type: int, min: 1}
-      - {label: 2人目以降1名あたりの追加日数, name: extraDaysPerSinger, widget: number, value_type: int, min: 0}
+      - {label: 2人目以降1名あたりの追加日数（0.5日＝12時間）, name: extraDaysPerSinger, widget: number, value_type: float, step: 0.5, min: 0}
 
   - name: works
     label: 制作実績・表示順
