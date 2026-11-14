@@ -12,7 +12,7 @@
     const harmony=prices.harmony?.[$('harmony').value] ?? 0;
     const rush=prices.rush?.[$('rush').value] ?? 0;
     $('estimated-price').textContent='¥'+(base+Math.max(0,count-1)*perSinger+harmony+rush).toLocaleString('ja-JP');
-    const extraDays = Math.max(0,count-1)*(prices.delivery?.extraDaysPerSinger ?? 1);
+    const extraDays = Math.max(0,count-1)*(prices.delivery?.extraDaysPerSinger ?? 0.5);
     const policy=prices.delivery;
     const type=$('rush').value;
     if(policy){
