@@ -11,7 +11,7 @@
   const labels = {
     plan: {one: 'ワンコーラス', full: 'フルコーラス'},
     harmony: {none: 'なし', generate: 'ハモリ生成', arrange: 'ハモリ作成・アレンジ'},
-    rush: {normal: '通常', '72h': 'お急ぎ（72時間固定）', '24h': '超特急（24時間希望・要相談）'}
+    rush: {normal: '通常', '72h': 'お急ぎ（72時間固定）', '24h': '超特急（24時間希望・料金は目安）'}
   };
 
   const output = {
@@ -44,16 +44,16 @@
     const extra = (singers - 1) * pricing[plan].extraSinger;
     const harmonyPrice = pricing.harmony[harmony];
     const superExpress = rush === '24h';
-    const rushPrice = superExpress ? null : pricing.rush[rush];
-    const total = superExpress ? null : base + extra + harmonyPrice + rushPrice;
+    const rushPrice = pricing.rush[rush];
+    const total = base + extra + harmonyPrice + rushPrice;
     output.base.textContent = yen(base);
     output.singer.textContent = yen(extra);
     output.singerRow.hidden = singers === 1;
     output.harmony.textContent = yen(harmonyPrice);
     output.harmonyRow.hidden = harmonyPrice === 0;
-    output.rush.textContent = superExpress ? '要相談' : yen(rushPrice);
+    output.rush.textContent = yen(rushPrice) + (superExpress ? '（目安）' : '');
     output.rushRow.hidden = rush === 'normal';
-    output.total.textContent = superExpress ? '要相談' : yen(total);
+    output.total.textContent = yen(total) + (superExpress ? '（目安）' : '');
     const policy = pricing.delivery;
     const extraPeople = singers - 1;
     const addedHours = rush === 'normal'
@@ -69,7 +69,7 @@
       ? `${addedHours / 24}日`
       : addedHours < 24 ? `${addedHours}時間` : `${Math.floor(addedHours / 24)}日${addedHours % 24}時間`;
     output.deliveryExtra.textContent = superExpress
-      ? '料金・納期・対応可否を確認してご案内します'
+      ? '超特急の正式な料金・納期・対応可否はご相談のうえ決定します'
       : rush === '72h'
         ? 'お急ぎは人数にかかわらず72時間以内（対応可否は内容確認後）'
         : extraPeople > 0
@@ -98,7 +98,7 @@
       '\nお急ぎ・超特急：' + output.rush.textContent +
       '\n合計：' + output.total.textContent +
       '\n初回納品の目安：' + output.delivery.textContent +
-      '\n※超特急は料金・納期ともに要相談です。その他も正式な金額は依頼内容を確認後にご案内します。';
+      '\n※超特急の表示金額は目安です。正式な料金・納期・対応可否はご相談のうえ決定します。';
     try {
       await navigator.clipboard.writeText(content);
       output.copyResult.textContent = '計算内容をコピーしました。';
