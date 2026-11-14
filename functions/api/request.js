@@ -16,7 +16,7 @@ function priceFor(x){
  return base+Math.max(0,x.singers-1)*per+harmony+rush;
 }
 export async function onRequestPost({request,env}){
-  if(!env?.TURNSTILE_SECRET_KEY || !env.RESEND_API_KEY || !env.RESEND_FROM || !env.NOTIFY_EMAIL || !env.DISCORD_WEBHOOK_URL){
+  if(!env?.TURNSTILE_SECRET_KEY || !env.DISCORD_WEBHOOK_URL){
     return withJson({error:'フォーム送信は現在準備中です。XのDMからお問い合わせください。'},503);
   }
   if((request.headers.get('content-type')||'').split(';')[0]!=='application/json')return withJson({error:'リクエスト形式が正しくありません。'},415);
