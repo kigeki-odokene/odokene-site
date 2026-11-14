@@ -10,7 +10,6 @@ const str=(x,max=1000)=>String(x ?? '').trim().slice(0,max);
 const isMail=(email)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const isoDate=(s)=>!s || /^\d{4}-\d{2}-\d{2}$/.test(s);
 function priceFor(x){
- if(x.rush==='24h')return null; // Super express requires manual quote.
  const base=prices[x.plan].base;
  const per=prices[x.plan].extraSinger;
  const harmony=prices.harmony[x.harmony];
@@ -55,7 +54,7 @@ export async function onRequestPost({request,env}){
     `ボーカル人数: ${x.singers}名`,`ハモリ: ${x.harmony}`,
     `納期オプション: ${x.rush==='24h'?'超特急（要相談）':x.rush==='72h'?'お急ぎ（72時間基準）':'通常'}`,
     `初回納品目安（人数加算済み）: ${estimateDelivery(prices,x.singers,x.rush)}`,
-    `概算（税込）: ${x.rush==='24h'?'要相談':priceFor(x).toLocaleString('ja-JP')+'円'}`,`曲名: ${x.songTitle || '(未入力)'}`,
+    `概算（税込）: ${priceFor(x).toLocaleString('ja-JP')}円${x.rush==='24h'?'（超特急は目安・正式料金要相談）':''}`,`曲名: ${x.songTitle || '(未入力)'}`,
     `素材URL: ${x.materialsUrl || '(後日)'}`,`希望納品日: ${x.wishDate || '(未指定)'}`,
     `ご相談内容:\n${x.message || '(未入力)'}`
   ].join('\n');
