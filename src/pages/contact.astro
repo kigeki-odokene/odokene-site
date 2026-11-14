@@ -2,6 +2,7 @@
 import copy from '../data/copy.json';
 import pricing from '../data/pricing.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { estimateDelivery } from '../lib/delivery.mjs';
 // The public Turnstile site key is loaded from a Pages Function at runtime.
 ---
 <BaseLayout title="MIXの依頼・相談｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>MIXの依頼・相談</h1><p>{copy.contact.intro}</p></div>
@@ -12,8 +13,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <div class="field"><label for="client-email">メールアドレス <span class="optional" id="email-required">任意</span></label><input id="client-email" name="email" type="email" autocomplete="email" placeholder="example@email.com" maxlength="180"/><small>DMを選んだ場合、メールは予備の連絡先として任意です。</small></div>
 <h2 class="form-heading">MIXの内容</h2>
 <div class="field-row"><div class="field"><label for="plan">プラン <span class="required">*</span></label><select id="plan" name="plan" required><option value="one">ワンコーラス（{pricing.one.base.toLocaleString('ja-JP')}円）</option><option value="full">フルコーラス（{pricing.full.base.toLocaleString('ja-JP')}円）</option></select></div><div class="field"><label for="singers">ボーカル人数 <span class="required">*</span></label><select id="singers" name="singers" required>{Array.from({length:pricing.maxSingers},(_,i)=><option value={i+1}>{i+1}人</option>)}</select></div></div>
-<div class="field-row"><div class="field"><label for="harmony">ハモリ（任意）</label><select id="harmony" name="harmony"><option value="none">なし</option><option value="generate">生成（＋{pricing.harmony.generate.toLocaleString('ja-JP')}円）</option><option value="arrange">作成・アレンジ（＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円）</option></select></div><div class="field"><label for="rush">納期</label><select id="rush" name="rush"><option value="normal">通常7〜14日</option><option value="72h">72時間以内（＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option><option value="24h">24時間以内（＋{pricing.rush['24h'].toLocaleString('ja-JP')}円）</option></select></div></div>
-<div class="estimate" aria-live="polite"><span>概算料金（税込）</span><strong id="estimated-price">¥{pricing.one.base.toLocaleString('ja-JP')}</strong></div><p class="fine">正確な料金は、内容を確認してからお伝えします。</p>
+<div class="field-row"><div class="field"><label for="harmony">ハモリ（任意）</label><select id="harmony" name="harmony"><option value="none">なし</option><option value="generate">生成（＋{pricing.harmony.generate.toLocaleString('ja-JP')}円）</option><option value="arrange">作成・アレンジ（＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円）</option></select></div><div class="field"><label for="rush">納期</label><select id="rush" name="rush"><option value="normal">通常（1名：{estimateDelivery(pricing,1,'normal')}）</option><option value="72h">お急ぎ（1名：{estimateDelivery(pricing,1,'72h')}／＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option><option value="24h">お急ぎ（1名：{estimateDelivery(pricing,1,'24h')}／＋{pricing.rush['24h'].toLocaleString('ja-JP')}円）</option></select></div></div>
+<div class="estimate" aria-live="polite"><span>概算料金（税込）</span><strong id="estimated-price">¥{pricing.one.base.toLocaleString('ja-JP')}</strong></div><div class="estimate-delivery" aria-live="polite"><span>初回納品の目安</span><strong id="estimated-delivery">{estimateDelivery(pricing,1,'normal')}</strong></div><p class="fine">2人目以降は1名につき＋{pricing.delivery.extraDaysPerSinger}日。通常・お急ぎともに人数加算されます。必要な素材が揃ってから計算します。</p><p class="fine">正確な料金は、内容を確認してからお伝えします。</p>
 <h2 class="form-heading">分かる範囲でご記入ください</h2>
 <div class="field"><label for="song-title">曲名（任意）</label><input id="song-title" name="songTitle" maxlength="160"/></div>
 <div class="field"><label for="materials-url">素材の共有URL（任意）</label><input id="materials-url" name="materialsUrl" type="url" maxlength="600" placeholder="https://..."/><small>{copy.contact.materialHelp}</small></div>
@@ -27,7 +28,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <button type="submit" class="send-button" id="submit-request" disabled>フォーム送信は準備中</button>
 <p class="contact-response" id="request-response" role="status" aria-live="polite"></p>
 </form></div>
-<aside class="contact-aside"><h2>XのDM</h2><p>{copy.contact.dmText}</p><p><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">@kigeki_odokene ↗</a></p><hr/><p class="fine">基本料金：{pricing.one.base.toLocaleString('ja-JP')}円〜<br/>通常納期：7〜14日程度<br/>お支払い：最終納品後、銀行振込</p><p class="quiet-link"><a href="/faq/">注意事項を見る ↗</a></p></aside>
+<aside class="contact-aside"><h2>XのDM</h2><p>{copy.contact.dmText}</p><p><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">@kigeki_odokene ↗</a></p><hr/><p class="fine">基本料金：{pricing.one.base.toLocaleString('ja-JP')}円〜<br/>通常納期（1名）：{estimateDelivery(pricing,1,'normal')}<br/>お支払い：最終納品後、銀行振込</p><p class="quiet-link"><a href="/faq/">注意事項を見る ↗</a></p></aside>
 </div></div>
 
 <script is:inline src="/js/contact.js" defer></script>
