@@ -10,16 +10,20 @@
     const base=prices[plan]?.base ?? 0;
     const perSinger=prices[plan]?.extraSinger ?? 0;
     const harmony=prices.harmony?.[$('harmony').value] ?? 0;
-    const rush=prices.rush?.[$('rush').value] ?? 0;
-    $('estimated-price').textContent='¥'+(base+Math.max(0,count-1)*perSinger+harmony+rush).toLocaleString('ja-JP');
-    const extraDays = Math.max(0,count-1)*(prices.delivery?.extraDaysPerSinger ?? 0.5);
-    const policy=prices.delivery;
     const type=$('rush').value;
+    const superExpress=type==='24h';
+    const rushFee=superExpress ? 0 : prices.rush?.[type] ?? 0;
+    const total=base+Math.max(0,count-1)*perSinger+harmony+rushFee;
+    $('estimated-price').textContent=superExpress ? '要相談' : '¥'+total.toLocaleString('ja-JP');
+    const policy=prices.delivery;
     if(policy){
-      const days=type==='normal'
-        ? `${policy.normalMinDays+extraDays}〜${policy.normalMaxDays+extraDays}日程度`
-        : `${(type==='72h'?policy.rush72Hours:policy.rush24Hours)+extraDays*24}時間以内`;
-      $('estimated-delivery').textContent=days;
+      const extraPeople=Math.max(0,count-1);
+      const delivery=superExpress
+        ? `要相談（${policy.rush24Hours}時間希望）`
+        : type==='72h'
+          ? `${policy.rush72Hours+extraPeople*policy.rushExtraHoursPerSinger}時間以内`
+          : `${policy.normalMinDays+extraPeople*policy.extraDaysPerSinger}〜${policy.normalMaxDays+extraPeople*policy.extraDaysPerSinger}日程度`;
+      $('estimated-delivery').textContent=delivery;
     }
   }
   fields.forEach(id => $(id)?.addEventListener('change',updatePrice));
