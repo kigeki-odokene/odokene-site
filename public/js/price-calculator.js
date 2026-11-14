@@ -11,7 +11,7 @@
   const labels = {
     plan: {one: 'ワンコーラス', full: 'フルコーラス'},
     harmony: {none: 'なし', generate: 'ハモリ生成', arrange: 'ハモリ作成・アレンジ'},
-    rush: {normal: '通常', '72h': 'お急ぎ（72時間・1名基準）', '24h': 'お急ぎ（24時間・1名基準）'}
+    rush: {normal: '通常', '72h': 'お急ぎ（72時間・1名基準）', '24h': '超特急（24時間希望・要相談）'}
   };
 
   const output = {
@@ -38,34 +38,41 @@
     const harmony = get('harmony').value;
     const rush = get('rush').value;
     if (!pricing[plan] || !Number.isInteger(singers) || singers < 1 || singers > pricing.maxSingers ||
-        !(harmony in pricing.harmony) || !(rush in pricing.rush)) return;
+        !(harmony in pricing.harmony) || !['normal','72h','24h'].includes(rush)) return;
 
     const base = pricing[plan].base;
     const extra = (singers - 1) * pricing[plan].extraSinger;
     const harmonyPrice = pricing.harmony[harmony];
-    const rushPrice = pricing.rush[rush];
-    const total = base + extra + harmonyPrice + rushPrice;
+    const superExpress = rush === '24h';
+    const rushPrice = superExpress ? null : pricing.rush[rush];
+    const total = superExpress ? null : base + extra + harmonyPrice + rushPrice;
     output.base.textContent = yen(base);
     output.singer.textContent = yen(extra);
     output.singerRow.hidden = singers === 1;
     output.harmony.textContent = yen(harmonyPrice);
     output.harmonyRow.hidden = harmonyPrice === 0;
-    output.rush.textContent = yen(rushPrice);
-    output.rushRow.hidden = rushPrice === 0;
-    output.total.textContent = yen(total);
+    output.rush.textContent = superExpress ? '要相談' : yen(rushPrice);
+    output.rushRow.hidden = rush === 'normal';
+    output.total.textContent = superExpress ? '要相談' : yen(total);
     const policy = pricing.delivery;
-    const addedDays = (singers - 1) * policy.extraDaysPerSinger;
-    const delivery = rush === 'normal'
-      ? `${policy.normalMinDays + addedDays}〜${policy.normalMaxDays + addedDays}日程度`
-      : `${(rush === '72h' ? policy.rush72Hours : policy.rush24Hours) + 24 * addedDays}時間以内`;
+    const extraPeople = singers - 1;
+    const addedHours = rush === '72h'
+      ? extraPeople * policy.rushExtraHoursPerSinger
+      : extraPeople * policy.extraDaysPerSinger * 24;
+    const delivery = superExpress
+      ? `要相談（${policy.rush24Hours}時間希望）`
+      : rush === '72h'
+        ? `${policy.rush72Hours + addedHours}時間以内`
+        : `${policy.normalMinDays + addedHours / 24}〜${policy.normalMaxDays + addedHours / 24}日程度`;
     output.delivery.textContent = delivery;
-    const addedHours = Math.round(addedDays * 24);
     const extensionLabel = addedHours % 24 === 0
       ? `${addedHours / 24}日`
       : addedHours < 24 ? `${addedHours}時間` : `${Math.floor(addedHours / 24)}日${addedHours % 24}時間`;
-    output.deliveryExtra.textContent = singers > 1
-      ? `追加${singers - 1}名による延長：＋${extensionLabel}`
-      : 'ボーカル1名の場合の目安';
+    output.deliveryExtra.textContent = superExpress
+      ? '料金・納期・対応可否を確認してご案内します'
+      : extraPeople > 0
+        ? `追加${extraPeople}名による延長：＋${extensionLabel}`
+        : 'ボーカル1名の場合の目安';
     summary = [
       labels.plan[plan],
       singers + '人',
@@ -86,10 +93,10 @@
       '\n基本料金：' + output.base.textContent +
       '\n追加ボーカル：' + output.singer.textContent +
       '\nハモリ：' + output.harmony.textContent +
-      '\nお急ぎ納品：' + output.rush.textContent +
+      '\nお急ぎ・超特急：' + output.rush.textContent +
       '\n合計：' + output.total.textContent +
       '\n初回納品の目安：' + output.delivery.textContent +
-      '\n※正式な料金はご依頼内容を確認後にご案内します。';
+      '\n※超特急は料金・納期ともに要相談です。その他も正式な金額は依頼内容を確認後にご案内します。';
     try {
       await navigator.clipboard.writeText(content);
       output.copyResult.textContent = '計算内容をコピーしました。';
