@@ -24,7 +24,7 @@ const selectedWorks = orderedWorks.slice(0, displayCount);
     </div>
     <section class="hello-work" id="works">
       <div class="piece-top"><h2>{copy.home.worksTitle}</h2><a href="/works/">一覧を見る</a></div>
-      {selectedWorks.length > 0 && <div class="home-work-rotator" data-interval="8000" aria-label="制作実績">
+      {selectedWorks.length > 0 && <div class="home-work-rotator" data-interval="8000" data-autoplay={homeSettings.autoRotate !== false ? "true" : "false"} aria-label="制作実績">
         <div class="home-work-slides">
           {selectedWorks.map((work, index) => {
             const video = getWorkVideo(work);
@@ -54,7 +54,7 @@ const selectedWorks = orderedWorks.slice(0, displayCount);
             <button type="button" data-slide-prev aria-label="前の作品">‹</button>
             <span class="featured-rotation-count" data-slide-count>1 / {selectedWorks.length}</span>
             <button type="button" data-slide-next aria-label="次の作品">›</button>
-            <button type="button" data-slide-pause aria-label="自動切り替えを一時停止" aria-pressed="false" title="自動切り替えを一時停止">Ⅱ</button>
+            {homeSettings.autoRotate !== false && <button type="button" data-slide-pause aria-label="自動切り替えを一時停止" aria-pressed="false" title="自動切り替えを一時停止">Ⅱ</button>}
           </div>
           <div class="featured-rotation-dots" role="group" aria-label="作品を選択">
             {selectedWorks.map((work, i) => <button type="button" data-slide-index={i} aria-label={`${i + 1}番目の作品：${work.title}を表示`} aria-current={i === 0 ? 'true' : undefined} title={work.title}>{i + 1}</button>)}
