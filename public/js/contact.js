@@ -23,7 +23,7 @@
         ? `要相談（${policy.rush24Hours}時間希望）`
         : type==='72h'
           ? `${policy.rush72Hours}時間以内`
-          : `${policy.normalMinDays+extraPeople*policy.extraDaysPerSinger}〜${policy.normalMaxDays+extraPeople*policy.extraDaysPerSinger}日程度`;
+          : `${policy.normalMaxDays+extraPeople*policy.extraDaysPerSinger}日以内`;
       $('estimated-delivery').textContent=delivery;
     }
   }
