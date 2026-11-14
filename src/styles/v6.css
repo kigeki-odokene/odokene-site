@@ -141,3 +141,8 @@
 .estimate-delivery{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--soft)}
 .estimate-delivery span{font-size:13px}
 .estimate-delivery strong{font-size:18px;font-weight:650;font-variant-numeric:tabular-nums}
+
+/* Optional video-delivery rights confirmation inside standard form fields. */
+#video-rights-field .agree{display:flex;align-items:flex-start;gap:9px;margin:3px 0 6px;font-size:13px;font-weight:500;line-height:1.6}
+#video-rights-field .agree input[type="checkbox"]{display:inline-block;flex:0 0 16px;width:16px;height:16px;min-height:0;margin:3px 0 0;padding:0;border:1px solid #aaa;outline:auto}
+#video-rights-field[hidden]{display:none!important}
