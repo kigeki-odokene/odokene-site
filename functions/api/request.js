@@ -34,7 +34,7 @@ export async function onRequestPost({request,env}){
     songTitle:str(data.songTitle,160),materialsUrl:str(data.materialsUrl,600),
     wishDate:str(data.wishDate,10),message:str(data.message,2500),consent:data.consent
   };
-  if(!x.name || !['x','email'].includes(x.replyMethod) || !['one','full'].includes(x.plan) || !Number.isInteger(x.singers) || x.singers<1 || x.singers>prices.maxSingers || !['none','generate','arrange'].includes(x.harmony) || !['normal','72h','24h'].includes(x.rush) || x.consent!=='yes') return withJson({error:'必須項目をご確認ください。'},400);
+  if(!x.name || !['x','email'].includes(x.replyMethod) || !['one','full'].includes(x.plan) || !Number.isInteger(x.singers) || x.singers<1 || x.singers>prices.maxSingers || !['none','generate'].includes(x.harmony) || !['normal','72h','24h'].includes(x.rush) || x.consent!=='yes') return withJson({error:'必須項目をご確認ください。'},400);
   if((x.replyMethod==='x'&&!/^@?[A-Za-z0-9_]{1,15}$/.test(x.xHandle)) || (x.replyMethod==='email'&&!isMail(x.email)) || (x.email&&!isMail(x.email)) || !isoDate(x.wishDate)) return withJson({error:'返信先または納品日の入力をご確認ください。'},400);
   if(x.materialsUrl){try{const url=new URL(x.materialsUrl);if(!['https:','http:'].includes(url.protocol))throw 0;}catch{return withJson({error:'素材URLの形式をご確認ください。'},400);}}
   // Verify bot protection on the server, fail closed when misconfigured.
