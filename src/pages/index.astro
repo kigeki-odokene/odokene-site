@@ -9,10 +9,12 @@ import homeSettings from '../data/home-settings.json';
 import { getWorkVideo, workCreditText } from '../lib/work-video.mjs';
 const allWorks = works.works || [];
 const featured = allWorks.find(w => w.featured) ?? allWorks[0];
-const orderedWorks = featured ? [featured, ...allWorks.filter(w => w !== featured)] : [];
-const displayCount = [1, 3, 4].includes(Number(homeSettings.displayCount)) ? Number(homeSettings.displayCount) : 1;
-const selectedWorks = orderedWorks.slice(0, displayCount);
-const useGrid = displayCount > 1 && homeSettings.displayStyle === 'grid';
+const displayCount = [1, 2, 3, 4].includes(Number(homeSettings.displayCount)) ? Number(homeSettings.displayCount) : 1;
+// The grid is deliberately curated. Newly added historical works do not replace pinned works.
+const pinnedWorks = allWorks.filter(w => w.featured);
+const selectedWorks = pinnedWorks.slice(0, displayCount);
+const rotationWorks = featured ? [featured, ...allWorks.filter(w => w !== featured)] : [];
+const useGrid = homeSettings.displayStyle === 'grid';
 
 ---
 <BaseLayout title="ODOKENE｜歌ってみたMIXのご依頼">
@@ -26,12 +28,12 @@ const useGrid = displayCount > 1 && homeSettings.displayStyle === 'grid';
     </div>
     <section class="hello-work" id="works">
       <div class="piece-top"><h2>{copy.home.worksTitle}</h2><a href="/works/">一覧を見る</a></div>
-      {useGrid && <div class:list={['home-works-grid', `home-works-grid--${displayCount}`]}>
+      {useGrid && selectedWorks.length > 0 && <div class:list={['home-works-grid', `home-works-grid--${displayCount}`]}>
         {selectedWorks.map(work => <WorkCard work={work} />)}
       </div>}
-      {!useGrid && selectedWorks.length > 0 && <div class="home-work-rotator" data-interval="8000" data-autoplay={homeSettings.autoRotate !== false ? "true" : "false"} aria-label="制作実績">
+      {!useGrid && rotationWorks.length > 0 && <div class="home-work-rotator" data-interval="8000" data-autoplay={homeSettings.autoRotate !== false ? "true" : "false"} aria-label="制作実績">
         <div class="home-work-slides">
-          {selectedWorks.map((work, index) => {
+          {rotationWorks.map((work, index) => {
             const video = getWorkVideo(work);
             const credit = workCreditText(work);
             return <div class="featured-row" data-featured-slide hidden={index !== 0}>
@@ -54,15 +56,15 @@ const useGrid = displayCount > 1 && homeSettings.displayStyle === 'grid';
             </div>;
           })}
         </div>
-        {selectedWorks.length > 1 && <div class="featured-rotation-controls">
+        {rotationWorks.length > 1 && <div class="featured-rotation-controls">
           <div class="featured-rotation-arrows">
             <button type="button" data-slide-prev aria-label="前の作品">‹</button>
-            <span class="featured-rotation-count" data-slide-count>1 / {selectedWorks.length}</span>
+            <span class="featured-rotation-count" data-slide-count>1 / {rotationWorks.length}</span>
             <button type="button" data-slide-next aria-label="次の作品">›</button>
             {homeSettings.autoRotate !== false && <button type="button" data-slide-pause aria-label="自動切り替えを一時停止" aria-pressed="false" title="自動切り替えを一時停止">Ⅱ</button>}
           </div>
           <div class="featured-rotation-dots" role="group" aria-label="作品を選択">
-            {selectedWorks.map((work, i) => <button type="button" data-slide-index={i} aria-label={`${i + 1}番目の作品：${work.title}を表示`} aria-current={i === 0 ? 'true' : undefined} title={work.title}>{i + 1}</button>)}
+            {rotationWorks.map((work, i) => <button type="button" data-slide-index={i} aria-label={`${i + 1}番目の作品：${work.title}を表示`} aria-current={i === 0 ? 'true' : undefined} title={work.title}>{i + 1}</button>)}
           </div>
         </div>}
       </div>}
