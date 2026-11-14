@@ -300,13 +300,10 @@ collections:
       - label: 歌唱名義
         name: cover
         widget: string
-      - label: 動画URL（YouTubeまたはX）
+      - label: 動画URL（YouTube / X・Twitter）
         name: videoUrl
         widget: string
-        hint: YouTube動画、または動画付きXポストのURLを登録してください。作品を追加するとHOMEで複数表示できます。
-        pattern:
-        - '^https://(www\.)?(youtube\.com/|youtu\.be/|x\.com/|twitter\.com/|mobile\.twitter\.com/).+'
-        - YouTubeまたはXの動画・投稿URLを入力してください
+        hint: 'YouTubeの通常動画・Shorts、またはX（Twitter）の動画付き投稿のURLを貼り付けてください。例：https://www.youtube.com/watch?v=... / https://youtu.be/... / https://x.com/ユーザー名/status/投稿ID。URLの入力規則は廃止し、動画の種類は自動判定します。'
       - label: サムネイル画像（任意）
         name: thumbnail
         widget: image
