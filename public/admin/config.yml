@@ -272,12 +272,11 @@ collections:
     - label: 納期の設定
       name: delivery
       widget: object
-      hint: 納期は必要な素材がすべて揃った時点から数えます。通常は2人目以降1名につき＋0.5日、お急ぎ（72時間）は1名につき＋8時間が初期値です。超特急（24時間希望）は料金・納期ともに要相談です。
+      hint: 納期は必要な素材がすべて揃った時点から数えます。人数による納期延長は通常納期だけで、2人目以降は1名につき＋0.5日です。お急ぎ（72時間）は人数によらず固定、超特急（24時間希望）は料金・納期ともに要相談です。
       fields:
       - {label: 通常納期の最短日数（1名）, name: normalMinDays, widget: number, value_type: int, min: 1}
       - {label: 通常納期の最長日数（1名）, name: normalMaxDays, widget: number, value_type: int, min: 1}
       - {label: 72時間オプションの基準時間（1名）, name: rush72Hours, widget: number, value_type: int, min: 1}
-      - {label: お急ぎ（72時間）の追加1名あたり延長時間, name: rushExtraHoursPerSinger, widget: number, value_type: int, min: 0}
       - {label: 超特急の希望時間（料金・納期要相談）, name: rush24Hours, widget: number, value_type: int, min: 1}
       - {label: 2人目以降1名あたりの追加日数（0.5日＝12時間）, name: extraDaysPerSinger, widget: number, value_type: float, step: 0.5, min: 0}
 
