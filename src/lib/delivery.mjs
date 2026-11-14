@@ -1,12 +1,14 @@
-// Build-time and server-side delivery estimate. The CMS edits src/data/pricing.json.
+// Delivery estimates shared by static pages and Cloudflare Pages Functions.
+// 24h (super express) is a consultation request, not a guaranteed deadline.
 export function estimateDelivery(pricing, singers = 1, rush = 'normal') {
   const config = pricing.delivery;
   const count = Number.isInteger(Number(singers)) ? Math.max(1, Number(singers)) : 1;
-  const addedDays = (count - 1) * config.extraDaysPerSinger;
-  if (rush === '72h' || rush === '24h') {
-    const hours = (rush === '72h' ? config.rush72Hours : config.rush24Hours) + addedDays * 24;
+  if (rush === '24h') return `要相談（${config.rush24Hours}時間希望）`;
+  if (rush === '72h') {
+    const hours = config.rush72Hours + (count - 1) * config.rushExtraHoursPerSinger;
     return `${hours}時間以内`;
   }
+  const addedDays = (count - 1) * config.extraDaysPerSinger;
   return `${config.normalMinDays + addedDays}〜${config.normalMaxDays + addedDays}日程度`;
 }
 
