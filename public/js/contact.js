@@ -21,7 +21,7 @@
       const delivery=superExpress
         ? `要相談（${policy.rush24Hours}時間希望）`
         : type==='72h'
-          ? `${policy.rush72Hours+extraPeople*policy.rushExtraHoursPerSinger}時間以内`
+          ? `${policy.rush72Hours}時間以内`
           : `${policy.normalMinDays+extraPeople*policy.extraDaysPerSinger}〜${policy.normalMaxDays+extraPeople*policy.extraDaysPerSinger}日程度`;
       $('estimated-delivery').textContent=delivery;
     }
