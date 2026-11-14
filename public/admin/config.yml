@@ -29,6 +29,17 @@ collections:
     - {label: サイトURL, name: siteUrl, widget: hidden, default: ''}
     - {label: フォーム状態, name: formStatus, widget: hidden, default: 準備中}
     - {label: サイト説明文, name: aboutText, widget: text, required: false}
+  - name: profileSettings
+    label: 自己紹介の編集
+    file: src/data/profile.json
+    description: 自己紹介ページの名前・活動内容・プロフィール画像をここから編集できます。
+    fields:
+    - {label: 表示名, name: name, widget: string}
+    - {label: 肩書き・活動内容（短文）, name: role, widget: string, required: false}
+    - {label: 自己紹介文, name: bio, widget: text, required: false}
+    - {label: 活動・経歴（任意）, name: activities, widget: text, required: false}
+    - {label: プロフィール画像（任意）, name: image, widget: image, required: false}
+    - {label: 画像の説明（任意）, name: imageAlt, widget: string, required: false}
   - name: homeWorksDisplay
     label: HOMEの動画表示設定
     file: src/data/home-settings.json
@@ -229,17 +240,6 @@ collections:
       - label: 制作について 2
         name: approach2
         widget: text
-      - label: 自己紹介・プロフィール
-        name: profile
-        widget: object
-        collapsed: false
-        fields:
-        - {label: 表示名, name: name, widget: string}
-        - {label: 肩書き・活動内容（短文）, name: role, widget: string, required: false}
-        - {label: 自己紹介文, name: bio, widget: text, required: false}
-        - {label: 活動・経歴（任意）, name: activities, widget: text, required: false}
-        - {label: プロフィール画像（任意）, name: image, widget: image, required: false}
-        - {label: 画像の説明（任意）, name: imageAlt, widget: string, required: false}
     - label: よくある質問・注意事項
       name: faq
       widget: object
