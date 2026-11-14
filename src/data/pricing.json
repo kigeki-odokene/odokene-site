@@ -23,5 +23,9 @@
     "rush72Hours": 72,
     "rush24Hours": 24,
     "extraDaysPerSinger": 0.5
+  },
+  "video": {
+    "none": 0,
+    "encode": 500
   }
 }
