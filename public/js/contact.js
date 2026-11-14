@@ -25,6 +25,45 @@
   }
   $('reply-method')?.addEventListener('change',updateContact);
   updateContact(); updatePrice();
+  // Load the public site key from Cloudflare Pages Functions, not a build-time variable.
+  // Never expose the Turnstile secret key in the browser.
+  async function initTurnstile() {
+    const button = $('submit-request');
+    const warning = $('form-warning');
+    const container = $('turnstile-container');
+    if (!button || !warning || !container) return;
+    try {
+      const response = await fetch('/api/turnstile-config', { cache: 'no-store' });
+      if (!response.ok) throw new Error('Turnstile configuration unavailable');
+      const config = await response.json();
+      if (typeof config.siteKey !== 'string' || !config.siteKey.startsWith('0x')) {
+        throw new Error('Invalid Turnstile site key');
+      }
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.onload = () => {
+        try {
+          if (!window.turnstile?.render) throw new Error('Turnstile failed to load');
+          window.turnstile.render(container, { sitekey: config.siteKey });
+          warning.hidden = true;
+          button.disabled = false;
+          button.textContent = '依頼内容を送信する';
+        } catch (error) {
+          console.error('Turnstile initialization failed', error);
+          warning.textContent = '認証機能を表示できません。再読み込みするか、XのDMでご連絡ください。';
+        }
+      };
+      script.onerror = () => {
+        warning.textContent = '認証機能を読み込めませんでした。再読み込みするか、XのDMでご連絡ください。';
+      };
+      document.head.appendChild(script);
+    } catch (error) {
+      console.error('Turnstile configuration failed', error);
+      warning.textContent = 'フォームを現在利用できません。XのDMからご連絡ください。';
+    }
+  }
+  void initTurnstile();
   form.addEventListener('submit',async event=>{
     event.preventDefault();
     const info=$('request-response'); const button=$('submit-request');
