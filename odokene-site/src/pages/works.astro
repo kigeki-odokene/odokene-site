@@ -1,0 +1,7 @@
+---
+import copy from '../data/copy.json';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import works from '../data/works.json';
+---
+<BaseLayout title="制作実績｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>制作実績</h1><p>{copy.works.intro}</p></div><div class="work-list">{works.works.map(work=><WorkCard work={work}/>)}</div><div class="page-tail"><a href="/contact/">MIXを依頼する ↗</a></div></div></BaseLayout>

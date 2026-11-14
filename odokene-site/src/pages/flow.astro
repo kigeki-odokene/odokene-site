@@ -1,0 +1,6 @@
+---
+import copy from '../data/copy.json';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="依頼の流れ｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>依頼の流れ</h1><p>{copy.flow.intro}</p></div>
+<section class="subsection"><div class="section-aside"><h2>お問い合わせ</h2></div><div class="section-body"><ol class="steps">{copy.flow.steps.map((step,i)=><li><span class="step-number">{i+1}</span><div><b>{step.title}</b><p>{step.text}</p></div></li>)}</ol></div></section><section class="subsection"><div class="section-aside"><h2>注意事項</h2></div><div class="section-body"><p>{copy.flow.notes}<a href="/faq/">{copy.flow.notesLinkText}</a>をご覧ください。</p><p class="quiet-link"><a href="/contact/">依頼する・相談する ↗</a></p></div></section></div></BaseLayout>

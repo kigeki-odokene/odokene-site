@@ -1,0 +1,310 @@
+# /admin/のログインにはGitHub + OAuth認証プロキシの設定が必要です。README参照。
+backend:
+  name: github
+  repo: YOUR_GITHUB_NAME/odokene-site
+  branch: main
+  base_url: https://YOUR-SITE.pages.dev
+  auth_endpoint: auth
+media_folder: public/images/uploads
+public_folder: /images/uploads
+locale: ja
+publish: true
+collections:
+- name: site
+  label: サイト管理
+  files:
+  - name: copy
+    label: 文章の編集（全ページ）
+    file: src/data/copy.json
+    description: 文章だけを変更できます。サイトのレイアウトは変わりません。料金や納期の数字を変える場合は別の設定も確認してください。
+    fields:
+    - label: トップページ
+      name: home
+      widget: object
+      collapsed: true
+      fields:
+      - label: 大見出し
+        name: title
+        widget: string
+      - label: 冒頭の説明 1
+        name: intro1
+        widget: text
+      - name: intro2a
+        label: 冒頭の説明 2（1行目）
+        widget: text
+      - name: intro2b
+        label: 冒頭の説明 2（2行目）
+        widget: text
+      - label: 制作実績の見出し
+        name: worksTitle
+        widget: string
+      - label: その他の実績の見出し
+        name: otherWorksTitle
+        widget: string
+      - label: 料金の見出し
+        name: ratesTitle
+        widget: string
+      - label: 料金の注記
+        name: ratesLabel
+        widget: string
+      - label: 基本料金の説明
+        name: ratesNote
+        widget: text
+      - label: 追加オプションの見出し
+        name: optionsTitle
+        widget: string
+      - label: 依頼の流れの見出し
+        name: flowTitle
+        widget: string
+      - label: トップページ用の依頼の流れ
+        name: flowSteps
+        widget: list
+        summary: '{{fields.title}}'
+        fields:
+        - label: 見出し
+          name: title
+          widget: string
+        - label: 説明文
+          name: text
+          widget: text
+      - label: 注意事項の見出し
+        name: notesTitle
+        widget: string
+      - label: 注意事項 1
+        name: notes1
+        widget: text
+      - label: 注意事項 2
+        name: notes2
+        widget: text
+      - label: お問い合わせ見出し
+        name: contactTitle
+        widget: string
+      - label: お問い合わせ文 1
+        name: contact1
+        widget: text
+      - label: お問い合わせ文 2
+        name: contact2
+        widget: text
+    - label: MIXの内容
+      name: service
+      widget: object
+      collapsed: true
+      fields:
+      - label: ページ冒頭の説明
+        name: intro
+        widget: text
+      - label: 基本サービスの見出し
+        name: basicTitle
+        widget: string
+      - label: 基本料金に含む作業
+        name: included
+        widget: list
+        field:
+          label: 作業内容
+          name: item
+          widget: string
+      - label: ハモリの注記
+        name: harmonyNote
+        widget: text
+      - label: ジャンルの見出し
+        name: genresTitle
+        widget: string
+      - label: 得意ジャンル
+        name: genres
+        widget: text
+      - label: ジャンルに関する注記
+        name: genresNote
+        widget: text
+      - label: 納品の見出し
+        name: deliveryTitle
+        widget: string
+      - label: 納品の説明 1
+        name: delivery1
+        widget: text
+      - label: 納品の説明 2
+        name: delivery2
+        widget: text
+    - label: 料金ページの説明文
+      name: price
+      widget: object
+      collapsed: true
+      fields:
+      - label: 冒頭の文章
+        name: intro
+        widget: text
+      - label: 基本料金の説明
+        name: baseNote
+        widget: text
+      - label: 追加料金の説明
+        name: optionsNote
+        widget: text
+      - label: 支払いについて
+        name: payment
+        widget: text
+    - label: 制作実績ページの説明文
+      name: works
+      widget: object
+      collapsed: true
+      fields:
+      - label: 冒頭の文章
+        name: intro
+        widget: text
+    - label: 依頼の流れ
+      name: flow
+      widget: object
+      collapsed: true
+      fields:
+      - label: 冒頭の文章
+        name: intro
+        widget: text
+      - label: 依頼の流れ（詳細ページ）
+        name: steps
+        widget: list
+        summary: '{{fields.title}}'
+        fields:
+        - label: 見出し
+          name: title
+          widget: string
+        - label: 説明文
+          name: text
+          widget: text
+      - label: 注意事項の導入（リンクの前まで）
+        name: notes
+        widget: text
+      - label: 注意事項のリンク文字
+        name: notesLinkText
+        widget: string
+    - label: ABOUTページ
+      name: about
+      widget: object
+      collapsed: true
+      fields:
+      - label: 冒頭の説明
+        name: intro
+        widget: text
+      - label: 制作について 1
+        name: approach1
+        widget: text
+      - label: 制作について 2
+        name: approach2
+        widget: text
+    - label: よくある質問・注意事項
+      name: faq
+      widget: object
+      collapsed: true
+      fields:
+      - label: 冒頭の説明
+        name: intro
+        widget: text
+      - label: 質問と回答
+        name: questions
+        widget: list
+        summary: '{{fields.question}}'
+        fields:
+        - label: 質問
+          name: question
+          widget: string
+        - label: 回答
+          name: answer
+          widget: text
+      - label: キャンセル規定
+        name: cancelText
+        widget: text
+      - label: キャンセルに関する注記
+        name: cancelNote
+        widget: text
+      - label: お問い合わせ案内
+        name: contactText
+        widget: text
+    - label: 依頼フォームの案内文
+      name: contact
+      widget: object
+      collapsed: true
+      fields:
+      - label: 冒頭の文章
+        name: intro
+        widget: text
+      - label: 必須項目の説明
+        name: formHelp
+        widget: text
+      - label: 素材URLの案内
+        name: materialHelp
+        widget: text
+      - label: 個人情報に関する案内
+        name: privacyNote
+        widget: text
+      - label: DMについて
+        name: dmText
+        widget: text
+    - label: フッター
+      name: footer
+      widget: object
+      collapsed: true
+      fields:
+      - label: リンクより前の文章
+        name: before
+        widget: string
+      - label: リンクより後の文章
+        name: after
+        widget: string
+  - name: pricing
+    label: 料金の数値
+    file: src/data/pricing.json
+    description: この数値はトップページ・料金表・依頼フォーム・見積計算に反映されます。文章内に手入力した金額も必要に応じて直してください。
+    fields:
+    - {label: ワンコーラス, name: one, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
+    - {label: フルコーラス, name: full, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
+    - {label: ハモリ追加料金, name: harmony, widget: object, fields: [{label: ハモリなし, name: none, widget: number, value_type: int, min: 0}, {label: ハモリ生成, name: generate, widget: number, value_type: int, min: 0}, {label: 作成・アレンジ, name: arrange, widget: number, value_type: int, min: 0}]}
+    - {label: お急ぎ追加料金, name: rush, widget: object, fields: [{label: 通常, name: normal, widget: number, value_type: int, min: 0}, {label: 72時間以内, name: '72h', widget: number, value_type: int, min: 0}, {label: 24時間以内, name: '24h', widget: number, value_type: int, min: 0}]}
+    - {label: ボーカル人数の上限, name: maxSingers, widget: number, value_type: int, min: 1, max: 16}
+  - name: works
+    label: 制作実績・表示順
+    file: src/data/works.json
+    fields:
+    - label: 制作実績（上から順に表示。ドラッグで並べ替え）
+      name: works
+      widget: list
+      collapsed: true
+      allow_reorder: true
+      summary: '{{fields.title}} — {{fields.cover}}'
+      fields:
+      - label: 曲名
+        name: title
+        widget: string
+      - label: 原曲アーティスト
+        name: original
+        widget: string
+      - label: 歌唱名義
+        name: cover
+        widget: string
+      - label: YouTube URL
+        name: youtubeUrl
+        widget: string
+        pattern:
+        - ^https://(www\\.)?(youtube\\.com/watch\\?v=|youtu\\.be/|youtube\\.com/shorts/)[A-Za-z0-9_-]{11}.*$
+        - YouTubeのURLを入力してください
+      - label: サムネイル画像（任意・未設定ならYouTubeの画像）
+        name: thumbnail
+        widget: image
+        required: false
+        hint: YouTubeの画像が使えないときだけアップロードしてください
+      - label: 担当内容
+        name: credits
+        widget: list
+        field:
+          label: 項目
+          name: item
+          widget: string
+      - label: TOPの大きな作品として表示
+        name: featured
+        widget: boolean
+        default: false
+        hint: 複数ONの場合は上に並んだ作品を使用
+      - label: コメント
+        name: description
+        widget: text
+        required: false
+      - label: 公開日（任意）
+        name: publishedAt
+        widget: string
+        required: false

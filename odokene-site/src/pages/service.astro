@@ -1,0 +1,8 @@
+---
+import copy from '../data/copy.json';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="MIXの内容｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>MIXの内容</h1><p>{copy.service.intro}</p></div>
+<section class="subsection"><div class="section-aside"><h2>{copy.service.basicTitle}</h2></div><div class="section-body"><ul class="plain-lines">{copy.service.included.map(item=><li>{item}</li>)}</ul><p class="fine">{copy.service.harmonyNote}</p></div></section>
+<section class="subsection"><div class="section-aside"><h2>{copy.service.genresTitle}</h2></div><div class="section-body"><p>{copy.service.genres}</p><p class="fine">{copy.service.genresNote}</p></div></section>
+<section class="subsection"><div class="section-aside"><h2>{copy.service.deliveryTitle}</h2></div><div class="section-body"><p>{copy.service.delivery1}</p><p>{copy.service.delivery2}</p><p class="quiet-link"><a href="/price/">料金を見る ↗</a></p></div></section></div></BaseLayout>

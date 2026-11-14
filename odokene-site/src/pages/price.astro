@@ -1,0 +1,11 @@
+---
+import copy from '../data/copy.json';
+import pricing from '../data/pricing.json';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="料金｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>料金</h1><p>{copy.price.intro}</p></div>
+<section class="subsection"><div class="section-aside"><h2>基本料金</h2></div><div class="section-body"><div class="primary-prices"><div><span>ワンコーラスMIX</span><strong>{pricing.one.base.toLocaleString('ja-JP')}<small>円</small></strong></div><div><span>フルコーラスMIX</span><strong>{pricing.full.base.toLocaleString('ja-JP')}<small>円</small></strong></div></div><p class="fine">{copy.price.baseNote}</p></div></section>
+<section class="subsection"><div class="section-aside"><h2>追加料金</h2></div><div class="section-body"><dl class="small-rates"><div><dt>ボーカル追加（ワンコーラス・1名）</dt><dd>＋{pricing.one.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ボーカル追加（フルコーラス・1名）</dt><dd>＋{pricing.full.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ生成</dt><dd>＋{pricing.harmony.generate.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ作成・アレンジ</dt><dd>＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円</dd></div><div><dt>72時間以内の初回納品</dt><dd>＋{pricing.rush['72h'].toLocaleString('ja-JP')}円</dd></div><div><dt>24時間以内の初回納品</dt><dd>＋{pricing.rush['24h'].toLocaleString('ja-JP')}円</dd></div></dl><p class="fine">{copy.price.optionsNote}</p></div></section>
+<section class="subsection"><div class="section-aside"><h2>料金の例</h2></div><div class="section-body"><ul class="plain-lines"><li>フルコーラス／ソロ　<strong>{pricing.full.base.toLocaleString('ja-JP')}円</strong></li><li>フルコーラス／2人　<strong>{(pricing.full.base + pricing.full.extraSinger).toLocaleString('ja-JP')}円</strong></li><li>ワンコーラス／3人　<strong>{(pricing.one.base + pricing.one.extraSinger*2).toLocaleString('ja-JP')}円</strong></li></ul></div></section>
+<section class="subsection"><div class="section-aside"><h2>お支払い</h2></div><div class="section-body"><p>{copy.price.payment}</p><p class="quiet-link"><a href="/contact/">フォームで概算料金を確認する ↗</a></p></div></section>
+</div></BaseLayout>
