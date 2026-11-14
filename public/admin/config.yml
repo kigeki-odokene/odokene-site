@@ -16,22 +16,23 @@ collections:
   - name: homeWorksDisplay
     label: HOMEの動画表示設定
     file: src/data/home-settings.json
-    description: HOMEの制作実績は、1本なら大きなメイン枠、3本・4本なら「横並び」または「メイン1本で切り替え」を選択できます。ローテーション表示時のみ自動切り替えのON/OFFが適用されます。
+    description: 横並びは実績ごとの「HOME横並びに固定表示」をONにした作品を最大1〜4件表示します。ローテーションは登録した実績すべてをメイン枠1つで順番に表示します（手動・自動切り替え可能）。
     fields:
-    - label: HOMEに表示する動画数
+    - label: 横並び時に表示する枠数
       name: displayCount
       widget: select
       options:
-      - {label: '1本（大きく表示）', value: '1'}
-      - {label: '3本', value: '3'}
-      - {label: '4本', value: '4'}
+      - {label: '1枠', value: '1'}
+      - {label: '2枠', value: '2'}
+      - {label: '3枠', value: '3'}
+      - {label: '4枠', value: '4'}
     - label: 動画の表示スタイル
       name: displayStyle
       widget: select
       default: rotation
       options:
-      - {label: '横並び（従来の一覧表示）', value: 'grid'}
-      - {label: 'ローテーション（メイン1本を切り替え）', value: 'rotation'}
+      - {label: '横並び（固定掲載・1〜4枠）', value: 'grid'}
+      - {label: 'ローテーション（全登録実績を順番に表示）', value: 'rotation'}
     - label: ローテーション表示時に自動切り替えする（8秒ごと）
       name: autoRotate
       widget: boolean
@@ -321,23 +322,28 @@ collections:
         widget: image
         required: false
         hint: YouTubeは画像を自動取得。Xの動画では必要に応じて画像をアップロードできます。
-      - label: 担当表記（自由入力）
-        name: creditText
+      - label: 担当作業（複数選択可）
+        name: creditSelections
+        widget: select
+        multiple: true
+        required: false
+        default: []
+        options:
+        - {label: MIX, value: MIX}
+        - {label: Mastering, value: Mastering}
+        - {label: ピッチ補正, value: ピッチ補正}
+        - {label: リズム補正, value: リズム補正}
+        hint: 選んだ担当作業が制作実績の「担当」に表示されます。
+      - label: 担当作業の自由追記（任意）
+        name: creditExtra
         widget: string
         required: false
-        hint: 例：MIX / Mastering / Pitch & Timing。空欄なら下の「担当内容」を表示します。「（ODOKENE）」は自動では付けません。
-      - label: 担当内容
-        name: credits
-        widget: list
-        field:
-          label: 項目
-          name: item
-          widget: string
-      - label: TOPの大きな作品として表示
+        hint: 選択項目にない作業を追加できます。例：ハモリ制作 / ノイズ処理
+      - label: HOME横並びに固定表示
         name: featured
         widget: boolean
         default: false
-        hint: 複数ONの場合は上に並んだ作品を使用
+        hint: ONの作品だけが横並び表示に採用されます（上から最大4件）。OFFでも制作実績一覧に残り、ローテーション表示では自動的に対象になります。
       - label: コメント
         name: description
         widget: text
