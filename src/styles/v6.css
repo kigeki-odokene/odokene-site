@@ -106,3 +106,29 @@
 .work-player-external{text-align:right;font-size:12px;margin:12px 0 0}
 .work-player-external a{color:var(--orange)}
 @media(max-width:540px){.work-player-panel{padding:12px}.work-player-head strong{font-size:14px}}
+
+/* MIX price calculator */
+.price-calculator{border-top:1px solid var(--ink);padding-top:18px}
+.calc-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px}
+.calc-fields .field{margin-bottom:18px}
+.calc-summary{background:#f4efe8;padding:18px 22px;margin-top:10px}
+.calc-selected{font-size:12px;color:var(--muted);margin:0 0 12px}
+.calc-breakdown{margin:0}
+.calc-breakdown > div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:13px}
+.calc-breakdown > div[hidden]{display:none}
+.calc-breakdown dt,.calc-breakdown dd{margin:0}
+.calc-breakdown dd{font-weight:600;font-variant-numeric:tabular-nums}
+.calc-total{display:flex;justify-content:space-between;align-items:baseline;gap:15px;padding-top:12px;margin-top:12px;border-top:1px solid #cfc5b9}
+.calc-total span{font-size:14px;font-weight:650}
+.calc-total strong{font-size:clamp(24px,3.2vw,32px);font-variant-numeric:tabular-nums;letter-spacing:-.035em}
+.calc-actions{display:flex;align-items:center;flex-wrap:wrap;gap:14px 22px;margin-top:24px}
+.calc-request-link{display:inline-block;padding:11px 22px;background:var(--ink);border:1px solid var(--ink);color:#fff!important;text-decoration:none;font-size:13px}
+.calc-request-link:hover{background:var(--orange);border-color:var(--orange)}
+.calc-copy-button{border:0;background:none;padding:8px 0;font-size:13px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;color:var(--ink)}
+.calc-copy-button:hover{color:var(--orange)}
+.calc-copy-status{min-height:1.5em;margin:8px 0 0;font-size:12px;color:var(--muted)}
+@media(max-width:540px){
+  .calc-fields{grid-template-columns:1fr;gap:0}
+  .calc-summary{padding:16px}
+  .calc-total{align-items:center}
+}
