@@ -13,6 +13,7 @@
   const modal = document.getElementById('work-player');
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
   const interval = Math.max(4000, Number(rotator.dataset.interval) || 8000);
+  const autoplay = rotator.dataset.autoplay !== 'false';
   let current = 0;
   let timer;
   let userPaused = false;
@@ -35,7 +36,7 @@
 
   function restart() {
     if (timer !== undefined) window.clearInterval(timer);
-    timer = window.setInterval(autoAdvance, interval);
+    if (autoplay) timer = window.setInterval(autoAdvance, interval);
   }
 
   pause?.addEventListener('click', () => {
