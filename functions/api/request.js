@@ -32,13 +32,16 @@ export async function onRequestPost({request,env}){
     plan:str(data.plan,10),singers:Number(data.singers),
     harmony:str(data.harmony,15),rush:str(data.rush,10),
     video:str(data.video??'none',10),videoRights:data.videoRights,
+    videoSourceUrl:str(data.videoSourceUrl,600),videoLicenseUrl:str(data.videoLicenseUrl,600),
     songTitle:str(data.songTitle,160),materialsUrl:str(data.materialsUrl,600),
     wishDate:str(data.wishDate,10),message:str(data.message,2500),consent:data.consent
   };
   if(!x.name || !['x','email'].includes(x.replyMethod) || !['one','full'].includes(x.plan) || !Number.isInteger(x.singers) || x.singers<1 || x.singers>prices.maxSingers || !['none','generate'].includes(x.harmony) || !['normal','72h','24h'].includes(x.rush) || !['none','encode'].includes(x.video) || x.consent!=='yes') return withJson({error:'必須項目をご確認ください。'},400);
-  if(x.video==='encode' && x.videoRights!=='yes')return withJson({error:'動画納品には、編集・納品に必要な映像利用許諾の確認が必要です。'},400);
+  if(x.video==='encode' && x.videoRights!=='yes')return withJson({error:'動画納品には、使用・編集・納品が許可された映像素材が必要です。'},400);
   if((x.replyMethod==='x'&&!/^@?[A-Za-z0-9_]{1,15}$/.test(x.xHandle)) || (x.replyMethod==='email'&&!isMail(x.email)) || (x.email&&!isMail(x.email)) || !isoDate(x.wishDate)) return withJson({error:'返信先または納品日の入力をご確認ください。'},400);
-  if(x.materialsUrl){try{const url=new URL(x.materialsUrl);if(!['https:','http:'].includes(url.protocol))throw 0;}catch{return withJson({error:'素材URLの形式をご確認ください。'},400);}}
+  for(const [urlValue,label] of [[x.materialsUrl,'素材'],[x.video==='encode'?x.videoSourceUrl:'','動画素材'],[x.video==='encode'?x.videoLicenseUrl:'','動画の使用許諾']]){
+    if(urlValue){try{const url=new URL(urlValue);if(!['https:','http:'].includes(url.protocol))throw 0;}catch{return withJson({error:`${label}URLの形式をご確認ください。`},400);}}
+  }
   // Verify bot protection on the server, fail closed when misconfigured.
   const cfIp=request.headers.get('CF-Connecting-IP')||undefined;
   const verify=new URLSearchParams({secret:env.TURNSTILE_SECRET_KEY,response:str(data['cf-turnstile-response'],2000)});
@@ -56,6 +59,8 @@ export async function onRequestPost({request,env}){
     `ボーカル人数: ${x.singers}名`,`ハモリ: ${x.harmony}`,
     `動画エンコード: ${x.video==='encode'?'希望（+'+prices.video.encode.toLocaleString('ja-JP')+'円／本・映像の権利確認が必要）':'なし'}`,
     `映像利用許諾の申告: ${x.video==='encode'?'申告あり（個別確認必要）':'対象外'}`,
+    `動画素材URL: ${x.video==='encode'?(x.videoSourceUrl || '(後日共有)'):'(対象外)'}`,
+    `動画利用条件URL: ${x.video==='encode'?(x.videoLicenseUrl || '(別途確認)'):'(対象外)'}`,
     `納期オプション: ${x.rush==='24h'?'超特急（要相談）':x.rush==='72h'?'お急ぎ（72時間基準）':'通常'}`,
     `初回納品目安（人数加算済み）: ${estimateDelivery(prices,x.singers,x.rush)}`,
     `概算（税込）: ${priceFor(x).toLocaleString('ja-JP')}円${x.rush==='24h'?'（超特急は目安・正式料金要相談）':''}`,`曲名: ${x.songTitle || '(未入力)'}`,
