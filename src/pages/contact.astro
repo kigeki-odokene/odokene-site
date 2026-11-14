@@ -1,8 +1,11 @@
 ---
 import copy from '../data/copy.json';
 import pricing from '../data/pricing.json';
+import site from '../data/site.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { estimateDelivery } from '../lib/delivery.mjs';
+const dmHandle = '@' + site.xHandle.replace(/^@/, '');
+const dmUrl = `https://x.com/${dmHandle.slice(1)}`;
 // The public Turnstile site key is loaded from a Pages Function at runtime.
 ---
 <BaseLayout title="MIXの依頼・相談｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>MIXの依頼・相談</h1><p>{copy.contact.intro}</p></div>
@@ -38,7 +41,7 @@ import { estimateDelivery } from '../lib/delivery.mjs';
 <button type="submit" class="send-button" id="submit-request" disabled>フォーム送信は準備中</button>
 <p class="contact-response" id="request-response" role="status" aria-live="polite"></p>
 </form></div>
-<aside class="contact-aside"><h2>XのDM</h2><p>{copy.contact.dmText}</p><p><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">@kigeki_odokene ↗</a></p><hr/><p class="fine">基本料金：{pricing.one.base.toLocaleString('ja-JP')}円〜<br/>通常納期（1名）：{estimateDelivery(pricing,1,'normal')}<br/>お支払い：最終納品後、銀行振込</p><p class="quiet-link"><a href="/faq/">注意事項を見る ↗</a></p></aside>
+<aside class="contact-aside"><h2>XのDM</h2><p>{copy.contact.dmText}</p><p><a href={dmUrl} target="_blank" rel="noopener noreferrer">{dmHandle} ↗</a></p><hr/><p class="fine">基本料金：{pricing.one.base.toLocaleString('ja-JP')}円〜<br/>通常納期（1名）：{estimateDelivery(pricing,1,'normal')}<br/>お支払い：最終納品後、銀行振込</p><p class="quiet-link"><a href="/faq/">注意事項を見る ↗</a></p></aside>
 </div></div>
 
 <script is:inline src="/js/contact.js" defer></script>
