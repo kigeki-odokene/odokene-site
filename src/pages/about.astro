@@ -1,8 +1,8 @@
 ---
 import copy from '../data/copy.json';
 import site from '../data/site.json';
+import profile from '../data/profile.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
-const profile = copy.about.profile || {};
 const dmHandle = '@' + String(site.xHandle || 'muen_saltless').replace(/^@/, '');
 const dmUrl = `https://x.com/${dmHandle.slice(1)}`;
 ---
