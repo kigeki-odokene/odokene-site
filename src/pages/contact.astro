@@ -2,7 +2,7 @@
 import copy from '../data/copy.json';
 import pricing from '../data/pricing.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
-const turnstileSiteKey=import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const turnstileSiteKey = '0x4AAAAAAGAvU0hVPU6vJpzYXDskxj928hk';
 ---
 <BaseLayout title="MIXの依頼・相談｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>MIXの依頼・相談</h1><p>{copy.contact.intro}</p></div>
 <div class="contact-columns"><div><form id="mix-request" data-pricing={JSON.stringify(pricing)} data-turnstile-key={turnstileSiteKey} method="post" action="/api/request" novalidate>
