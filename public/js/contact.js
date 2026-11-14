@@ -12,7 +12,7 @@
     const harmony=prices.harmony?.[$('harmony').value] ?? 0;
     const type=$('rush').value;
     const superExpress=type==='24h';
-    const rushFee=prices.rush?.[type] ?? 0;
+    const rushFee=(prices.rush?.[type] ?? 0)*(type==='normal'?1:count);
     const total=base+Math.max(0,count-1)*perSinger+harmony+rushFee;
     $('estimated-price').textContent='¥'+total.toLocaleString('ja-JP')+(superExpress ? '（目安）' : '');
     const policy=prices.delivery;
