@@ -11,7 +11,7 @@
   const labels = {
     plan: {one: 'ワンコーラス', full: 'フルコーラス'},
     harmony: {none: 'なし', generate: 'ハモリ生成', arrange: 'ハモリ作成・アレンジ'},
-    rush: {normal: '通常（7〜14日）', '72h': '72時間以内', '24h': '24時間以内'}
+    rush: {normal: '通常', '72h': 'お急ぎ（72時間・1名基準）', '24h': 'お急ぎ（24時間・1名基準）'}
   };
 
   const output = {
@@ -24,6 +24,8 @@
     rushRow: document.getElementById('calc-rush-row'),
     total: document.getElementById('calc-total'),
     note: document.getElementById('calc-selection'),
+    delivery: document.getElementById('calc-delivery'),
+    deliveryExtra: document.getElementById('calc-delivery-extra'),
     request: document.getElementById('calc-request-link'),
     copy: document.getElementById('calc-copy'),
     copyResult: document.getElementById('calc-copy-result')
@@ -51,6 +53,15 @@
     output.rush.textContent = yen(rushPrice);
     output.rushRow.hidden = rushPrice === 0;
     output.total.textContent = yen(total);
+    const policy = pricing.delivery;
+    const addedDays = (singers - 1) * policy.extraDaysPerSinger;
+    const delivery = rush === 'normal'
+      ? `${policy.normalMinDays + addedDays}〜${policy.normalMaxDays + addedDays}日程度`
+      : `${(rush === '72h' ? policy.rush72Hours : policy.rush24Hours) + 24 * addedDays}時間以内`;
+    output.delivery.textContent = delivery;
+    output.deliveryExtra.textContent = singers > 1
+      ? `追加${singers - 1}名による延長：＋${addedDays}日`
+      : 'ボーカル1名の場合の目安';
     summary = [
       labels.plan[plan],
       singers + '人',
@@ -73,6 +84,7 @@
       '\nハモリ：' + output.harmony.textContent +
       '\nお急ぎ納品：' + output.rush.textContent +
       '\n合計：' + output.total.textContent +
+      '\n初回納品の目安：' + output.delivery.textContent +
       '\n※正式な料金はご依頼内容を確認後にご案内します。';
     try {
       await navigator.clipboard.writeText(content);
