@@ -1,4 +1,4 @@
-import prices from '../../src/data/pricing.json' with { type: 'json' };
+import prices from '../../src/data/pricing.json';
 // Cloudflare Pages Functions: form endpoint. Secrets are set only on Cloudflare.
 // Production requires TURNSTILE_SECRET_KEY, RESEND_API_KEY, RESEND_FROM,
 // NOTIFY_EMAIL, DISCORD_WEBHOOK_URL. Never put them in the site repository.
