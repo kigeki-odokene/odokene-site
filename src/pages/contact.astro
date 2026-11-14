@@ -17,8 +17,13 @@ import { estimateDelivery } from '../lib/delivery.mjs';
 <div class="field"><label for="video">動画エンコード（任意）</label><select id="video" name="video">
 <option value="none">不要（WAV・MP3納品のみ）</option>
 <option value="encode">動画に音源を差し替えて納品（＋{pricing.video.encode.toLocaleString('ja-JP')}円／本）</option>
-</select><small>映像は依頼者が権利を持つもの、または編集・納品の利用許諾を得たものに限ります。公式MVも無断利用はできません。</small></div>
-<div class="field" id="video-rights-field" hidden><label class="agree"><input type="checkbox" name="videoRights" value="yes" id="video-rights"/> 有償の制作作業を含む、映像の編集・複製・納品に必要な権利または権利者の許諾を取得しています <span class="required">*</span></label><small>権利関係の確認ができない映像の編集・納品はお受けできません。</small></div>
+</select><small>自作映像または利用規約・権利者の許諾で使用・編集・納品が認められた映像に限ります。公式MVも許諾がある場合のみ対応します。</small></div>
+<div class="field" id="video-rights-field" hidden>
+<div class="field"><label for="video-source-url">指定する動画素材のURL（任意）</label><input id="video-source-url" name="videoSourceUrl" type="url" maxlength="600" placeholder="https://..."/><small>ご用意いただいた動画ファイルの共有先や、配布元のURLなど。後からでも大丈夫です。</small></div>
+<div class="field"><label for="video-license-url">使用条件・許諾を確認できるURL（任意）</label><input id="video-license-url" name="videoLicenseUrl" type="url" maxlength="600" placeholder="https://..."/><small>配布規約や利用ガイドラインなど。個別許諾の場合は、ご相談時に確認できる内容をお伝えください。</small></div>
+<label class="agree"><input type="checkbox" name="videoRights" value="yes" id="video-rights"/> 指定する動画は、自作映像または使用・編集・納品（有償の制作作業を含む）が認められた映像です <span class="required">*</span></label>
+<small>許諾条件が確認できない映像の音源差し替え・エンコードはお受けできません。</small>
+</div>
 <div class="estimate" aria-live="polite"><span>概算料金（税込）</span><strong id="estimated-price">¥{pricing.one.base.toLocaleString('ja-JP')}</strong></div><div class="estimate-delivery" aria-live="polite"><span>初回納品の目安</span><strong id="estimated-delivery">{estimateDelivery(pricing,1,'normal')}</strong></div><p class="fine">人数による延長は通常のみ、1名追加ごとに＋{pricing.delivery.extraDaysPerSinger * 24}時間です。お急ぎは人数に関係なく72時間以内。お急ぎ・超特急の追加料金は人数分加算されます。超特急は1名あたり＋{pricing.rush['24h'].toLocaleString('ja-JP')}円を目安に計算しますが、正式な料金・納期は要相談。必要な素材が揃った時点から数えます。</p><p class="fine">正確な料金は、内容を確認してからお伝えします。</p>
 <h2 class="form-heading">分かる範囲でご記入ください</h2>
 <div class="field"><label for="song-title">曲名（任意）</label><input id="song-title" name="songTitle" maxlength="160"/></div>
