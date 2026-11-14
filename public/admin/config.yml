@@ -3,7 +3,7 @@ backend:
   name: github
   repo: YOUR_GITHUB_NAME/odokene-site
   branch: main
-  base_url: https://YOUR-SITE.pages.dev
+  base_url: https://odokene-site.pages.dev
   auth_endpoint: auth
 media_folder: public/images/uploads
 public_folder: /images/uploads
