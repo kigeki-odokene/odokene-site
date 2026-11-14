@@ -9,8 +9,7 @@
   },
   "harmony": {
     "none": 0,
-    "generate": 0,
-    "arrange": 0
+    "generate": 500
   },
   "rush": {
     "normal": 0,
