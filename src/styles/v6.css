@@ -166,3 +166,66 @@
 .home-works-grid--1{grid-template-columns:minmax(0,1fr);max-width:550px}
 .home-works-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:540px){.home-works-grid--2{grid-template-columns:1fr}}
+
+/* Clear, understated button affordances for site navigation and text links.
+   Video thumbnails remain clickable cards; logo and modal links keep their roles. */
+:where(.intro-link,.end-links,.quiet-link,.piece-top,.page-tail,.contact-aside,.foot-inner p,.subsection,.song-title,.featured-info,.page-intro,.page-tail) a:not(.work-visual):not(.calc-request-link),
+.subpage .section-body a:not(.work-visual):not(.calc-request-link),
+.subpage .page-tail a,
+.links a {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  width:fit-content;
+  max-width:100%;
+  min-height:36px;
+  padding:7px 12px;
+  border:1px solid #cfc5b9;
+  border-radius:3px;
+  background:transparent;
+  color:var(--ink);
+  font-weight:550;
+  font-size:12px;
+  line-height:1.45;
+  text-align:center;
+  text-decoration:none;
+  vertical-align:middle;
+  white-space:normal;
+  cursor:pointer;
+  transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+}
+:where(.intro-link,.end-links,.quiet-link,.piece-top,.page-tail,.contact-aside,.foot-inner p,.subsection,.song-title,.featured-info,.page-intro) a:not(.work-visual):not(.calc-request-link):hover,
+.subpage .section-body a:not(.work-visual):not(.calc-request-link):hover,
+.links a:hover {
+  border-color:var(--orange);
+  background:#f4eae0;
+  color:var(--focus);
+}
+:where(.intro-link,.end-links,.quiet-link,.piece-top,.page-tail,.contact-aside,.foot-inner p,.subsection,.song-title,.featured-info,.page-intro) a:not(.work-visual):not(.calc-request-link):focus-visible,
+.subpage .section-body a:not(.work-visual):not(.calc-request-link):focus-visible,
+.links a:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.hello-copy .intro-link{gap:10px}
+.hello-copy .intro-link a{color:var(--ink);font-weight:550;text-decoration:none}
+.intro-link a:first-child,.end-links a:first-child,.links a:last-child{
+  background:var(--ink);border-color:var(--ink);color:#fff;
+}
+.intro-link a:first-child:hover,.end-links a:first-child:hover,.links a:last-child:hover{
+  background:var(--orange);border-color:var(--orange);color:#fff;
+}
+.links{gap:8px}
+.links a{min-height:34px;padding:6px 9px;font-size:12px}
+.links a:last-child{text-decoration:none}
+.song-title{align-items:center;flex-wrap:wrap}
+.song-title a,.song-link{font-size:11px;white-space:normal}
+.featured-info p:last-child{margin-top:12px}
+.piece-top{align-items:center}
+.foot-inner p a{margin:3px 4px}
+.contact-aside a{overflow-wrap:anywhere}
+@media(max-width:700px){
+  .links a{width:100%;min-height:42px;justify-content:flex-start;padding:9px 12px}
+  .intro-link a,.end-links a{min-height:42px}
+}
+@media(prefers-reduced-motion:reduce){
+  :where(.intro-link,.end-links,.quiet-link,.piece-top,.page-tail,.contact-aside,.foot-inner p,.subsection,.song-title,.featured-info,.page-intro) a,.links a{transition:none}
+}
