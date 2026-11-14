@@ -6,6 +6,7 @@ import works from '../data/works.json';
 import WorkPlayer from '../components/WorkPlayer.astro';
 import WorkCard from '../components/WorkCard.astro';
 import homeSettings from '../data/home-settings.json';
+import site from '../data/site.json';
 import { getWorkVideo, workCreditText } from '../lib/work-video.mjs';
 const allWorks = works.works || [];
 const featured = allWorks.find(w => w.featured) ?? allWorks[0];
@@ -15,6 +16,8 @@ const pinnedWorks = allWorks.filter(w => w.featured);
 const selectedWorks = pinnedWorks.slice(0, displayCount);
 const rotationWorks = featured ? [featured, ...allWorks.filter(w => w !== featured)] : [];
 const useGrid = homeSettings.displayStyle === 'grid';
+const dmHandle = '@' + site.xHandle.replace(/^@/, '');
+const dmUrl = `https://x.com/${dmHandle.slice(1)}`;
 
 ---
 <BaseLayout title="ODOKENE｜歌ってみたMIXのご依頼">
@@ -24,7 +27,7 @@ const useGrid = homeSettings.displayStyle === 'grid';
       <h1>{copy.home.title}</h1>
       <p class="intro">{copy.home.intro1}</p>
       <p class="intro">{copy.home.intro2a}<br/>{copy.home.intro2b}</p>
-      <p class="intro-link"><a href="/contact/">依頼フォーム</a><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">XのDM</a></p>
+      <p class="intro-link"><a href="/contact/">依頼フォーム</a><a href={dmUrl} target="_blank" rel="noopener noreferrer">XのDM（{dmHandle}）</a></p>
     </div>
     <section class="hello-work" id="works">
       <div class="piece-top"><h2>{copy.home.worksTitle}</h2><a href="/works/">一覧を見る</a></div>
@@ -89,7 +92,7 @@ const useGrid = homeSettings.displayStyle === 'grid';
     <div class="section-aside"><h2>{copy.home.notesTitle}</h2></div>
     <div class="section-body"><p>{copy.home.notes1}</p><p class="fine">{copy.home.notes2}</p><p class="quiet-link"><a href="/faq/">注意事項・よくある質問</a></p></div>
   </section>
-  <section class="home-part last-part"><div class="section-aside"><h2>{copy.home.contactTitle}</h2></div><div class="section-body"><p>{copy.home.contact1}<br/>{copy.home.contact2}</p><p class="end-links"><a href="/contact/">依頼フォーム</a><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">XのDM（@kigeki_odokene）</a></p></div></section>
+  <section class="home-part last-part"><div class="section-aside"><h2>{copy.home.contactTitle}</h2></div><div class="section-body"><p>{copy.home.contact1}<br/>{copy.home.contact2}</p><p class="end-links"><a href="/contact/">依頼フォーム</a><a href={dmUrl} target="_blank" rel="noopener noreferrer">XのDM（{dmHandle}）</a></p></div></section>
 </div>
 <WorkPlayer />
 <script is:inline src="/js/home-work-rotation.js" defer></script>
