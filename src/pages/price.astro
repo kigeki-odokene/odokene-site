@@ -26,7 +26,7 @@ import { estimateDelivery } from '../lib/delivery.mjs';
         </select></div>
         <div class="field"><label for="calc-rush-select">納期</label><select id="calc-rush-select" name="rush">
           <option value="normal">通常（1名：{estimateDelivery(pricing,1,'normal')}）</option>
-          <option value="72h">お急ぎ（1名：{estimateDelivery(pricing,1,'72h')}／＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option>
+          <option value="72h">お急ぎ（人数共通：{estimateDelivery(pricing,1,'72h')}／＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option>
           <option value="24h">超特急（24時間希望・要相談）</option>
         </select></div>
       </div>
