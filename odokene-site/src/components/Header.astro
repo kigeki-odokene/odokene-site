@@ -1,6 +1,0 @@
-<header class="site-head"><div class="shell head-inner">
-<a href="/" class="logo" aria-label="ODOKENE ホーム"><img src="/logos/wave.svg" alt="" width="39" height="39"/><span>odokene<span class="dot">.</span></span></a>
-<button class="mobile-menu" id="menu-toggle" aria-expanded="false" aria-controls="site-links">メニュー <span aria-hidden="true">＋</span></button>
-<nav id="site-links" class="links" aria-label="サイト内メニュー"><a href="/#works">作品</a><a href="/#price">料金</a><a href="/service/">MIXの内容</a><a href="/#flow">依頼の流れ</a><a href="/faq/">よくある質問</a><a href="/contact/">ご依頼</a></nav>
-</div></header>
-<script>const t=document.querySelector('#menu-toggle'); const n=document.querySelector('#site-links');t?.addEventListener('click',()=>{const open=t.getAttribute('aria-expanded')==='true';t.setAttribute('aria-expanded',String(!open));n?.classList.toggle('show',!open)});n?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{n.classList.remove('show');t?.setAttribute('aria-expanded','false')}));</script>
