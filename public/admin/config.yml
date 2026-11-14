@@ -267,12 +267,12 @@ collections:
     - {label: ワンコーラス, name: one, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
     - {label: フルコーラス, name: full, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
     - {label: ハモリ追加料金, name: harmony, widget: object, fields: [{label: ハモリなし, name: none, widget: number, value_type: int, min: 0}, {label: ハモリ生成, name: generate, widget: number, value_type: int, min: 0}, {label: 作成・アレンジ, name: arrange, widget: number, value_type: int, min: 0}]}
-    - {label: お急ぎ・超特急の追加料金（超特急は概算目安）, name: rush, widget: object, fields: [{label: 通常, name: normal, widget: number, value_type: int, min: 0}, {label: お急ぎ（72時間基準）, name: '72h', widget: number, value_type: int, min: 0}, {label: 超特急（24時間希望・概算目安）, name: '24h', widget: number, value_type: int, min: 0}]}
+    - {label: お急ぎ・超特急の追加料金（1名あたり／超特急は概算）, name: rush, widget: object, fields: [{label: 通常, name: normal, widget: number, value_type: int, min: 0}, {label: お急ぎ（72時間・1人あたり）, name: '72h', widget: number, value_type: int, min: 0}, {label: 超特急（24時間希望・1人あたり概算）, name: '24h', widget: number, value_type: int, min: 0}]}
     - {label: ボーカル人数の上限, name: maxSingers, widget: number, value_type: int, min: 1, max: 16}
     - label: 納期の設定
       name: delivery
       widget: object
-      hint: 納期は必要な素材がすべて揃った時点から数えます。人数による納期延長は通常納期だけで、2人目以降は1名につき＋0.5日です。お急ぎ（72時間）は人数によらず固定、超特急（24時間希望）は＋4,000円を概算目安とし、正式な料金・納期・対応可否は要相談です。
+      hint: 納期は必要な素材がすべて揃った時点から数えます。人数による納期延長は通常納期だけで、2人目以降は1名につき＋0.5日です。お急ぎ（72時間）は人数によらず固定、お急ぎは1人につき＋2,000円、超特急（24時間希望）は1人につき＋5,000円を概算目安として、正式な料金・納期・対応可否は要相談です。
       fields:
       - {label: 通常納期の最短日数（1名）, name: normalMinDays, widget: number, value_type: int, min: 1}
       - {label: 通常納期の最長日数（1名）, name: normalMaxDays, widget: number, value_type: int, min: 1}
