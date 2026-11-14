@@ -1,16 +1,16 @@
 {
   "one": {
-    "base": 3000,
-    "extraSinger": 2000
+    "base": 2500,
+    "extraSinger": 1500
   },
   "full": {
-    "base": 5000,
-    "extraSinger": 3000
+    "base": 4500,
+    "extraSinger": 2500
   },
   "harmony": {
     "none": 0,
-    "generate": 1000,
-    "arrange": 2000
+    "generate": 500,
+    "arrange": 1500
   },
   "rush": {
     "normal": 0,
