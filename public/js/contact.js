@@ -33,6 +33,10 @@
     const rights=$('video-rights');
     rightsField.hidden=!needRights;
     rights.required=needRights;
+    for(const id of ['video-source-url','video-license-url']){
+      const input=$(id);
+      if(input)input.disabled=!needRights;
+    }
     if(!needRights)rights.checked=false;
   }
   fields.forEach(id => $(id)?.addEventListener('change',updatePrice));
