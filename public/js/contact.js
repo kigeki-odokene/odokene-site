@@ -24,6 +24,16 @@
     $('email-required').className=isX?'optional':'required';
   }
   $('reply-method')?.addEventListener('change',updateContact);
+  // Preselect valid options from the standalone price calculator.
+  // Invalid or unknown query parameters are ignored.
+  const estimateParams = new URLSearchParams(window.location.search);
+  for (const field of fields) {
+    const input = $(field);
+    const value = estimateParams.get(field);
+    if (input && value !== null && Array.from(input.options).some(option => option.value === value)) {
+      input.value = value;
+    }
+  }
   updateContact(); updatePrice();
   // Load the public site key from Cloudflare Pages Functions, not a build-time variable.
   // Never expose the Turnstile secret key in the browser.
