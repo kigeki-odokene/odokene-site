@@ -70,7 +70,7 @@
       ? `要相談（${policy.rush24Hours}時間希望）`
       : rush === '72h'
         ? `${policy.rush72Hours}時間以内`
-        : `${policy.normalMinDays + addedHours / 24}〜${policy.normalMaxDays + addedHours / 24}日程度`;
+        : `${policy.normalMaxDays + addedHours / 24}日以内`;
     output.delivery.textContent = delivery;
     const extensionLabel = addedHours % 24 === 0
       ? `${addedHours / 24}日`
