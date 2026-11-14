@@ -74,3 +74,35 @@
   .hello-area { padding-bottom:42px; }
   .home-part { grid-template-columns:1fr; gap:12px; padding:29px 0 36px; }
 }
+
+/* HOME work count selector: same design, more visible pieces when requested. */
+.home-works-grid{display:grid;gap:26px;align-items:start}
+.home-works-grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.home-works-grid--4{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.home-works-grid .song-title{font-size:14px;line-height:1.5;gap:5px}
+.home-works-grid .song-caption,.home-works-grid .song-credit{font-size:11px}
+.home-works-grid .work-fallback{padding:14px}
+.home-works-grid .work-fallback-title{font-size:clamp(12px,1.6vw,17px)}
+.home-works-grid .thumb-play{width:26px;height:26px;font-size:10px;right:8px;top:8px}
+.home-works-grid:has(> .work-entry:only-child){grid-template-columns:minmax(0,1fr);max-width:550px}
+@media(max-width:900px){
+  .home-works-grid--3,.home-works-grid--4{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:540px){
+  .home-works-grid--3,.home-works-grid--4{grid-template-columns:1fr}
+  .home-works-grid .work-fallback-title{font-size:17px}
+}
+.work-player-dialog{width:min(760px,calc(100% - 28px));max-height:92vh;max-height:92dvh;overflow:auto;padding:0;border:1px solid var(--soft);border-radius:3px;background:var(--paper);color:var(--ink)}
+.work-player-dialog::backdrop{background:rgba(22,20,18,.75)}
+.work-player-panel{padding:18px}
+.work-player-head{display:flex;align-items:start;justify-content:space-between;gap:15px;margin:0 0 15px}
+.work-player-head strong{font-size:16px;font-weight:650}
+.work-player-head form{flex-shrink:0}
+.work-player-close{border:0;background:transparent;text-decoration:underline;cursor:pointer;font-size:13px;padding:0;color:var(--muted)}
+.work-player-content{min-height:80px}
+.work-player-content iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;border:0}
+.work-player-content .twitter-video,.work-player-content .twitter-tweet{margin:0 auto!important}
+.work-player-content > blockquote{padding:22px 12px;border:1px solid var(--soft);overflow-wrap:anywhere}
+.work-player-external{text-align:right;font-size:12px;margin:12px 0 0}
+.work-player-external a{color:var(--orange)}
+@media(max-width:540px){.work-player-panel{padding:12px}.work-player-head strong{font-size:14px}}
