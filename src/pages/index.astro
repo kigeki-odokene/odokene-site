@@ -4,6 +4,7 @@ import pricing from '../data/pricing.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import works from '../data/works.json';
 import WorkPlayer from '../components/WorkPlayer.astro';
+import WorkCard from '../components/WorkCard.astro';
 import homeSettings from '../data/home-settings.json';
 import { getWorkVideo, workCreditText } from '../lib/work-video.mjs';
 const allWorks = works.works || [];
@@ -11,6 +12,7 @@ const featured = allWorks.find(w => w.featured) ?? allWorks[0];
 const orderedWorks = featured ? [featured, ...allWorks.filter(w => w !== featured)] : [];
 const displayCount = [1, 3, 4].includes(Number(homeSettings.displayCount)) ? Number(homeSettings.displayCount) : 1;
 const selectedWorks = orderedWorks.slice(0, displayCount);
+const useGrid = displayCount > 1 && homeSettings.displayStyle === 'grid';
 
 ---
 <BaseLayout title="ODOKENE｜歌ってみたMIXのご依頼">
@@ -24,7 +26,10 @@ const selectedWorks = orderedWorks.slice(0, displayCount);
     </div>
     <section class="hello-work" id="works">
       <div class="piece-top"><h2>{copy.home.worksTitle}</h2><a href="/works/">一覧を見る</a></div>
-      {selectedWorks.length > 0 && <div class="home-work-rotator" data-interval="8000" data-autoplay={homeSettings.autoRotate !== false ? "true" : "false"} aria-label="制作実績">
+      {useGrid && <div class:list={['home-works-grid', `home-works-grid--${displayCount}`]}>
+        {selectedWorks.map(work => <WorkCard work={work} />)}
+      </div>}
+      {!useGrid && selectedWorks.length > 0 && <div class="home-work-rotator" data-interval="8000" data-autoplay={homeSettings.autoRotate !== false ? "true" : "false"} aria-label="制作実績">
         <div class="home-work-slides">
           {selectedWorks.map((work, index) => {
             const video = getWorkVideo(work);
