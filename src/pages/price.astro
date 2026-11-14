@@ -2,12 +2,13 @@
 import copy from '../data/copy.json';
 import pricing from '../data/pricing.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { estimateDelivery } from '../lib/delivery.mjs';
 ---
 <BaseLayout title="料金｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>料金</h1><p>{copy.price.intro}</p></div>
 <section class="subsection"><div class="section-aside"><h2>基本料金</h2></div><div class="section-body"><div class="primary-prices"><div><span>ワンコーラスMIX</span><strong>{pricing.one.base.toLocaleString('ja-JP')}<small>円</small></strong></div><div><span>フルコーラスMIX</span><strong>{pricing.full.base.toLocaleString('ja-JP')}<small>円</small></strong></div></div><p class="fine">{copy.price.baseNote}</p></div></section>
-<section class="subsection"><div class="section-aside"><h2>追加料金</h2></div><div class="section-body"><dl class="small-rates"><div><dt>ボーカル追加（ワンコーラス・1名）</dt><dd>＋{pricing.one.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ボーカル追加（フルコーラス・1名）</dt><dd>＋{pricing.full.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ生成</dt><dd>＋{pricing.harmony.generate.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ作成・アレンジ</dt><dd>＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円</dd></div><div><dt>72時間以内の初回納品</dt><dd>＋{pricing.rush['72h'].toLocaleString('ja-JP')}円</dd></div><div><dt>24時間以内の初回納品</dt><dd>＋{pricing.rush['24h'].toLocaleString('ja-JP')}円</dd></div></dl><p class="fine">{copy.price.optionsNote}</p></div></section>
+<section class="subsection"><div class="section-aside"><h2>追加料金</h2></div><div class="section-body"><dl class="small-rates"><div><dt>ボーカル追加（ワンコーラス・1名）</dt><dd>＋{pricing.one.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ボーカル追加（フルコーラス・1名）</dt><dd>＋{pricing.full.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ生成</dt><dd>＋{pricing.harmony.generate.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ作成・アレンジ</dt><dd>＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円</dd></div><div><dt>72時間以内の初回納品</dt><dd>＋{pricing.rush['72h'].toLocaleString('ja-JP')}円</dd></div><div><dt>24時間以内の初回納品</dt><dd>＋{pricing.rush['24h'].toLocaleString('ja-JP')}円</dd></div></dl><p class="fine">{copy.price.optionsNote}</p><p class="fine">納期はボーカル1名を基準に、<strong>2人目以降は1名につき＋{pricing.delivery.extraDaysPerSinger}日</strong>加算されます。通常・お急ぎ納品の両方に適用。初回納品までの日数は、必要な素材がすべて揃った時点から数えます。</p></div></section>
 <section class="subsection" id="estimate">
-  <div class="section-aside"><h2>概算計算</h2><p class="aside-hint">組み合わせて料金を確認できます。</p></div>
+  <div class="section-aside"><h2>概算計算</h2><p class="aside-hint">人数に応じた料金と納期を確認できます。</p></div>
   <div class="section-body">
     <form id="price-calculator" class="price-calculator" data-pricing={JSON.stringify(pricing)}>
       <div class="calc-fields">
@@ -24,9 +25,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <option value="arrange">作成・アレンジ（＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円）</option>
         </select></div>
         <div class="field"><label for="calc-rush-select">納期</label><select id="calc-rush-select" name="rush">
-          <option value="normal">通常7〜14日</option>
-          <option value="72h">72時間以内（＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option>
-          <option value="24h">24時間以内（＋{pricing.rush['24h'].toLocaleString('ja-JP')}円）</option>
+          <option value="normal">通常（1名：{estimateDelivery(pricing,1,'normal')}）</option>
+          <option value="72h">お急ぎ（1名：{estimateDelivery(pricing,1,'72h')}／＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option>
+          <option value="24h">お急ぎ（1名：{estimateDelivery(pricing,1,'24h')}／＋{pricing.rush['24h'].toLocaleString('ja-JP')}円）</option>
         </select></div>
       </div>
       <div class="calc-summary" aria-live="polite" aria-atomic="true">
@@ -38,6 +39,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div id="calc-rush-row" hidden><dt>お急ぎ納品</dt><dd id="calc-rush">¥0</dd></div>
         </dl>
         <div class="calc-total"><span>概算合計（税込）</span><strong id="calc-total">¥{pricing.one.base.toLocaleString('ja-JP')}</strong></div>
+        <div class="calc-delivery">
+          <span>初回納品の目安</span>
+          <strong id="calc-delivery">{estimateDelivery(pricing,1,'normal')}</strong>
+          <small id="calc-delivery-extra">ボーカル1名の場合の目安</small>
+        </div>
       </div>
       <p class="fine">表示は概算です。正式な料金・納期は、ご依頼内容を確認したあとにご案内します。</p>
       <div class="calc-actions">
