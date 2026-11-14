@@ -63,7 +63,7 @@ const featuredCredit = featured ? workCreditText(featured) : '';
   <section class="home-part flow-part" id="flow">
     <div class="section-aside"><h2>{copy.home.flowTitle}</h2></div>
     <div class="section-body"><ol class="steps">{copy.home.flowSteps.map((step,i)=><li><span class="step-number">{i+1}</span><div><b>{step.title}</b><p>{step.text}</p></div></li>)}</ol>
-    <p class="quiet-link"><a href="/flow/">依頼の流れ</a></p></div>
+    <p class="quiet-link"><a href="/flow/">依頼の流れ</a></p><p class="fine">2人目以降は1名につき納期＋{pricing.delivery.extraDaysPerSinger}日。<a href="/price/#estimate">人数別の納期を確認する</a></p></div>
   </section>
   <section class="home-part notes-part">
     <div class="section-aside"><h2>{copy.home.notesTitle}</h2></div>
