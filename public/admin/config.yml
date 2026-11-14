@@ -16,15 +16,15 @@ collections:
   - name: homeWorksDisplay
     label: HOMEの動画表示本数
     file: src/data/home-settings.json
-    description: HOMEの制作実績を1本（大きく表示）・3本・4本から選べます。登録作品が少ないときは、ある分だけ表示します。
+    description: HOMEの制作実績を大きなメイン枠1本で表示します。3本・4本を選ぶと8秒ごとに作品を自動切り替えします（左右ボタンで手動切り替えも可能）。登録作品が少ないときは、ある分だけ表示します。
     fields:
     - label: HOMEに表示する動画数
       name: displayCount
       widget: select
       options:
       - {label: '1本（大きく表示）', value: '1'}
-      - {label: '3本（一覧表示）', value: '3'}
-      - {label: '4本（一覧表示）', value: '4'}
+      - {label: '3本（大きなメイン枠で自動切替）', value: '3'}
+      - {label: '4本（大きなメイン枠で自動切替）', value: '4'}
   - name: copy
     label: 文章の編集（全ページ）
     file: src/data/copy.json
