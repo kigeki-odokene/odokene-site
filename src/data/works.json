@@ -4,7 +4,6 @@
       "title": "彗星になれたなら",
       "original": "はるまきごはん",
       "cover": "梦煙",
-      "youtubeUrl": "https://www.youtube.com/watch?v=MINNnK8bCq0",
       "credits": [
         "MIX",
         "Mastering",
@@ -13,7 +12,9 @@
       "featured": true,
       "description": "",
       "publishedAt": "",
-      "thumbnail": ""
+      "thumbnail": "",
+      "videoUrl": "https://www.youtube.com/watch?v=MINNnK8bCq0",
+      "creditText": "MIX / Mastering / Pitch / Timing"
     }
   ]
 }
