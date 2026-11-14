@@ -6,6 +6,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="料金｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>料金</h1><p>{copy.price.intro}</p></div>
 <section class="subsection"><div class="section-aside"><h2>基本料金</h2></div><div class="section-body"><div class="primary-prices"><div><span>ワンコーラスMIX</span><strong>{pricing.one.base.toLocaleString('ja-JP')}<small>円</small></strong></div><div><span>フルコーラスMIX</span><strong>{pricing.full.base.toLocaleString('ja-JP')}<small>円</small></strong></div></div><p class="fine">{copy.price.baseNote}</p></div></section>
 <section class="subsection"><div class="section-aside"><h2>追加料金</h2></div><div class="section-body"><dl class="small-rates"><div><dt>ボーカル追加（ワンコーラス・1名）</dt><dd>＋{pricing.one.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ボーカル追加（フルコーラス・1名）</dt><dd>＋{pricing.full.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ生成</dt><dd>＋{pricing.harmony.generate.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ作成・アレンジ</dt><dd>＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円</dd></div><div><dt>72時間以内の初回納品</dt><dd>＋{pricing.rush['72h'].toLocaleString('ja-JP')}円</dd></div><div><dt>24時間以内の初回納品</dt><dd>＋{pricing.rush['24h'].toLocaleString('ja-JP')}円</dd></div></dl><p class="fine">{copy.price.optionsNote}</p></div></section>
+<section class="subsection" id="estimate">
+  <div class="section-aside"><h2>概算計算</h2><p class="aside-hint">組み合わせて料金を確認できます。</p></div>
+  <div class="section-body">
+    <form id="price-calculator" class="price-calculator" data-pricing={JSON.stringify(pricing)}>
+      <div class="calc-fields">
+        <div class="field"><label for="calc-plan">プラン</label><select id="calc-plan" name="plan">
+          <option value="one">ワンコーラス</option>
+          <option value="full">フルコーラス</option>
+        </select></div>
+        <div class="field"><label for="calc-singers">ボーカル人数</label><select id="calc-singers" name="singers">
+          {Array.from({length:pricing.maxSingers}, (_,i) => <option value={i+1}>{i+1}人</option>)}
+        </select></div>
+        <div class="field"><label for="calc-harmony-select">ハモリ</label><select id="calc-harmony-select" name="harmony">
+          <option value="none">なし</option>
+          <option value="generate">生成（＋{pricing.harmony.generate.toLocaleString('ja-JP')}円）</option>
+          <option value="arrange">作成・アレンジ（＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円）</option>
+        </select></div>
+        <div class="field"><label for="calc-rush-select">納期</label><select id="calc-rush-select" name="rush">
+          <option value="normal">通常7〜14日</option>
+          <option value="72h">72時間以内（＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option>
+          <option value="24h">24時間以内（＋{pricing.rush['24h'].toLocaleString('ja-JP')}円）</option>
+        </select></div>
+      </div>
+      <div class="calc-summary" aria-live="polite" aria-atomic="true">
+        <p class="calc-selected" id="calc-selection">ワンコーラス / 1人 / なし / 通常（7〜14日）</p>
+        <dl class="calc-breakdown">
+          <div><dt>基本料金</dt><dd id="calc-base">¥{pricing.one.base.toLocaleString('ja-JP')}</dd></div>
+          <div id="calc-extra-singers-row" hidden><dt>追加ボーカル</dt><dd id="calc-extra-singers">¥0</dd></div>
+          <div id="calc-harmony-row" hidden><dt>ハモリ</dt><dd id="calc-harmony">¥0</dd></div>
+          <div id="calc-rush-row" hidden><dt>お急ぎ納品</dt><dd id="calc-rush">¥0</dd></div>
+        </dl>
+        <div class="calc-total"><span>概算合計（税込）</span><strong id="calc-total">¥{pricing.one.base.toLocaleString('ja-JP')}</strong></div>
+      </div>
+      <p class="fine">表示は概算です。正式な料金・納期は、ご依頼内容を確認したあとにご案内します。</p>
+      <div class="calc-actions">
+        <a id="calc-request-link" class="calc-request-link" href="/contact/?plan=one&amp;singers=1&amp;harmony=none&amp;rush=normal">この内容で相談する ↗</a>
+        <button class="calc-copy-button" id="calc-copy" type="button">計算内容をコピー</button>
+      </div>
+      <p class="calc-copy-status" id="calc-copy-result" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
 <section class="subsection"><div class="section-aside"><h2>料金の例</h2></div><div class="section-body"><ul class="plain-lines"><li>フルコーラス／ソロ　<strong>{pricing.full.base.toLocaleString('ja-JP')}円</strong></li><li>フルコーラス／2人　<strong>{(pricing.full.base + pricing.full.extraSinger).toLocaleString('ja-JP')}円</strong></li><li>ワンコーラス／3人　<strong>{(pricing.one.base + pricing.one.extraSinger*2).toLocaleString('ja-JP')}円</strong></li></ul></div></section>
-<section class="subsection"><div class="section-aside"><h2>お支払い</h2></div><div class="section-body"><p>{copy.price.payment}</p><p class="quiet-link"><a href="/contact/">フォームで概算料金を確認する ↗</a></p></div></section>
+<section class="subsection"><div class="section-aside"><h2>お支払い</h2></div><div class="section-body"><p>{copy.price.payment}</p><p class="quiet-link"><a href="#estimate">概算料金を計算する ↗</a></p></div></section>
 </div></BaseLayout>
+
+<script is:inline src="/js/price-calculator.js" defer></script>
