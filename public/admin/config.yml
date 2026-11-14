@@ -13,6 +13,18 @@ collections:
 - name: site
   label: サイト管理
   files:
+  - name: homeWorksDisplay
+    label: HOMEの動画表示本数
+    file: src/data/home-settings.json
+    description: HOMEの制作実績を1本（大きく表示）・3本・4本から選べます。登録作品が少ないときは、ある分だけ表示します。
+    fields:
+    - label: HOMEに表示する動画数
+      name: displayCount
+      widget: select
+      options:
+      - {label: '1本（大きく表示）', value: '1'}
+      - {label: '3本（一覧表示）', value: '3'}
+      - {label: '4本（一覧表示）', value: '4'}
   - name: copy
     label: 文章の編集（全ページ）
     file: src/data/copy.json
@@ -277,17 +289,23 @@ collections:
       - label: 歌唱名義
         name: cover
         widget: string
-      - label: YouTube URL
-        name: youtubeUrl
+      - label: 動画URL（YouTubeまたはX）
+        name: videoUrl
         widget: string
+        hint: YouTubeの動画URL、または動画付きXポストのURL。1作品につき1本登録し、作品を増やすとHOMEで複数表示できます。
         pattern:
-        - ^https://(www\\.)?(youtube\\.com/watch\\?v=|youtu\\.be/|youtube\\.com/shorts/)[A-Za-z0-9_-]{11}.*$
-        - YouTubeのURLを入力してください
+        - '^https://(www\\.)?(youtube\\.com/|youtu\\.be/|x\\.com/|twitter\\.com/|mobile\\.twitter\\.com/).+'
+        - YouTubeまたはXの動画・投稿URLを入力してください
       - label: サムネイル画像（任意・未設定ならYouTubeの画像）
         name: thumbnail
         widget: image
         required: false
         hint: YouTubeの画像が使えないときだけアップロードしてください
+      - label: 担当表記（自由入力）
+        name: creditText
+        widget: string
+        required: false
+        hint: 例：MIX / Mastering / Pitch & Timing。空欄なら下の「担当内容」を表示します。「（ODOKENE）」は自動では付けません。
       - label: 担当内容
         name: credits
         widget: list
