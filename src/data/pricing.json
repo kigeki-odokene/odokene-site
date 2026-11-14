@@ -15,7 +15,7 @@
   "rush": {
     "normal": 0,
     "72h": 2000,
-    "24h": 4000
+    "24h": 5000
   },
   "maxSingers": 16,
   "delivery": {
