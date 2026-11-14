@@ -38,5 +38,8 @@ export function getWorkVideo(work = {}) {
 }
 
 export function workCreditText(work = {}) {
+  const selections = Array.isArray(work.creditSelections) ? work.creditSelections.filter(Boolean) : [];
+  const extra = String(work.creditExtra || '').trim();
+  if (selections.length || extra) return [...selections, ...(extra ? [extra] : [])].join(' / ');
   return String(work.creditText || '').trim() || (Array.isArray(work.credits) ? work.credits.join(' / ') : '');
 }
