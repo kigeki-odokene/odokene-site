@@ -6,7 +6,7 @@ import { estimateDelivery } from '../lib/delivery.mjs';
 ---
 <BaseLayout title="料金｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>料金</h1><p>{copy.price.intro}</p></div>
 <section class="subsection"><div class="section-aside"><h2>基本料金</h2></div><div class="section-body"><div class="primary-prices"><div><span>ワンコーラスMIX</span><strong>{pricing.one.base.toLocaleString('ja-JP')}<small>円</small></strong></div><div><span>フルコーラスMIX</span><strong>{pricing.full.base.toLocaleString('ja-JP')}<small>円</small></strong></div></div><p class="fine">{copy.price.baseNote}</p></div></section>
-<section class="subsection"><div class="section-aside"><h2>追加料金</h2></div><div class="section-body"><dl class="small-rates"><div><dt>ボーカル追加（ワンコーラス・1名）</dt><dd>＋{pricing.one.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ボーカル追加（フルコーラス・1名）</dt><dd>＋{pricing.full.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ生成</dt><dd>＋{pricing.harmony.generate.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ作成・アレンジ</dt><dd>＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円</dd></div><div><dt>お急ぎ（72時間基準）</dt><dd>＋{pricing.rush['72h'].toLocaleString('ja-JP')}円</dd></div><div><dt>超特急（24時間希望）</dt><dd>要相談</dd></div></dl><p class="fine">{copy.price.optionsNote}</p><p class="fine">人数による納期延長は<strong>通常のみ：追加1名につき＋{pricing.delivery.extraDaysPerSinger * 24}時間</strong>です。お急ぎは人数にかかわらず72時間以内（追加料金）、超特急（24時間希望）は料金・対応可否・納期ともに個別相談です。納期は必要な素材がすべて揃った時点から数えます。</p></div></section>
+<section class="subsection"><div class="section-aside"><h2>追加料金</h2></div><div class="section-body"><dl class="small-rates"><div><dt>ボーカル追加（ワンコーラス・1名）</dt><dd>＋{pricing.one.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ボーカル追加（フルコーラス・1名）</dt><dd>＋{pricing.full.extraSinger.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ生成</dt><dd>＋{pricing.harmony.generate.toLocaleString('ja-JP')}円</dd></div><div><dt>ハモリ作成・アレンジ</dt><dd>＋{pricing.harmony.arrange.toLocaleString('ja-JP')}円</dd></div><div><dt>お急ぎ（72時間基準）</dt><dd>＋{pricing.rush['72h'].toLocaleString('ja-JP')}円</dd></div><div><dt>超特急（24時間希望・要相談）</dt><dd>目安 ＋{pricing.rush['24h'].toLocaleString('ja-JP')}円</dd></div></dl><p class="fine">{copy.price.optionsNote}</p><p class="fine">人数による納期延長は<strong>通常のみ：追加1名につき＋{pricing.delivery.extraDaysPerSinger * 24}時間</strong>です。お急ぎは人数にかかわらず72時間以内（追加料金）、超特急（24時間希望）は追加料金＋{pricing.rush['24h'].toLocaleString('ja-JP')}円を目安に、正式な料金・納期・対応可否を個別にご相談いただきます。納期は必要な素材がすべて揃った時点から数えます。</p></div></section>
 <section class="subsection" id="estimate">
   <div class="section-aside"><h2>概算計算</h2><p class="aside-hint">人数に応じた料金と納期を確認できます。</p></div>
   <div class="section-body">
@@ -27,7 +27,7 @@ import { estimateDelivery } from '../lib/delivery.mjs';
         <div class="field"><label for="calc-rush-select">納期</label><select id="calc-rush-select" name="rush">
           <option value="normal">通常（1名：{estimateDelivery(pricing,1,'normal')}）</option>
           <option value="72h">お急ぎ（人数共通：{estimateDelivery(pricing,1,'72h')}／＋{pricing.rush['72h'].toLocaleString('ja-JP')}円）</option>
-          <option value="24h">超特急（24時間希望・要相談）</option>
+          <option value="24h">超特急（24時間希望／目安＋{pricing.rush['24h'].toLocaleString('ja-JP')}円・要相談）</option>
         </select></div>
       </div>
       <div class="calc-summary" aria-live="polite" aria-atomic="true">
@@ -45,7 +45,7 @@ import { estimateDelivery } from '../lib/delivery.mjs';
           <small id="calc-delivery-extra">ボーカル1名の場合の目安</small>
         </div>
       </div>
-      <p class="fine">表示は概算です。超特急は合計金額を自動確定せず、料金・納期ともに個別にご案内します。</p>
+      <p class="fine">表示金額はすべて概算です。超特急も＋{pricing.rush['24h'].toLocaleString('ja-JP')}円を目安に計算しますが、正式な料金・納期・対応可否は個別にご案内します。</p>
       <div class="calc-actions">
         <a id="calc-request-link" class="calc-request-link" href="/contact/?plan=one&amp;singers=1&amp;harmony=none&amp;rush=normal">この内容で相談する ↗</a>
         <button class="calc-copy-button" id="calc-copy" type="button">計算内容をコピー</button>
