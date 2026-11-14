@@ -1,6 +1,12 @@
 {
   "works": [
     {
+      "creditSelections": [
+        "MIX",
+        "Mastering",
+        "ピッチ補正",
+        "リズム補正"
+      ],
       "publishedAt": "",
       "creditText": "MIX / Mastering / Pitch / Timing",
       "thumbnail": "",
@@ -17,7 +23,7 @@
       "description": ""
     },
     {
-      "featured": false,
+      "featured": true,
       "title": "敗北の少年",
       "cover": "梦煙",
       "original": "KEMU VOXX / 堀江晶太",
@@ -25,7 +31,13 @@
       "credits": [
         "MIX "
       ],
-      "creditText": "MIX / Mastering / Pitch / Timing"
+      "creditText": "MIX / Mastering / Pitch / Timing",
+      "creditSelections": [
+        "MIX",
+        "Mastering",
+        "ピッチ補正",
+        "リズム補正"
+      ]
     }
   ]
 }
