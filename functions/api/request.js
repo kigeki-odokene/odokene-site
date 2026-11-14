@@ -13,7 +13,7 @@ function priceFor(x){
  const base=prices[x.plan].base;
  const per=prices[x.plan].extraSinger;
  const harmony=prices.harmony[x.harmony];
- const rush=prices.rush[x.rush];
+ const rush=prices.rush[x.rush] * (x.rush==='normal' ? 1 : x.singers);
  return base+Math.max(0,x.singers-1)*per+harmony+rush;
 }
 export async function onRequestPost({request,env}){
