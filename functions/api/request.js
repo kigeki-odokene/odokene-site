@@ -1,7 +1,7 @@
 import prices from '../../src/data/pricing.json';
 // Cloudflare Pages Functions: form endpoint. Secrets are set only on Cloudflare.
-// Production requires TURNSTILE_SECRET_KEY, RESEND_API_KEY, RESEND_FROM,
-// NOTIFY_EMAIL, DISCORD_WEBHOOK_URL. Never put them in the site repository.
+// Production requires TURNSTILE_SECRET_KEY and DISCORD_WEBHOOK_URL.
+// Keep secret values in Cloudflare Pages variables, never in this repository.
 const withJson=(body,status=200)=>new Response(JSON.stringify(body),{
  status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}
 });
@@ -97,3 +97,4 @@ export async function onRequestGet() {
   return withJson({
     error: 'POSTのみ対応しています。'
   }, 405);
+}
