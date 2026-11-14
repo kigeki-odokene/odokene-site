@@ -6,7 +6,7 @@ export function estimateDelivery(pricing, singers = 1, rush = 'normal') {
   if (rush === '24h') return `要相談（${config.rush24Hours}時間希望）`;
   if (rush === '72h') return `${config.rush72Hours}時間以内`;
   const addedDays = (count - 1) * config.extraDaysPerSinger;
-  return `${config.normalMinDays + addedDays}〜${config.normalMaxDays + addedDays}日程度`;
+  return `${config.normalMaxDays + addedDays}日以内`;
 }
 
 export function extraDeliveryDays(pricing, singers = 1) {
