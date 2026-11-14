@@ -55,23 +55,45 @@ export async function onRequestPost({request,env}){
     `素材URL: ${x.materialsUrl || '(後日)'}`,`希望納品日: ${x.wishDate || '(未指定)'}`,
     `ご相談内容:\n${x.message || '(未入力)'}`
   ].join('\n');
-  const dest=[
-    fetch('https://api.resend.com/emails',{
-      method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
-      body:JSON.stringify({from:env.RESEND_FROM,to:[env.NOTIFY_EMAIL],subject:`[ODOKENE MIX] 新規依頼 ${requestId}`,
-        text:summary,...(x.email?{reply_to:x.email}:{})})
-    }),
-    fetch(env.DISCORD_WEBHOOK_URL,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({content:`**ODOKENE / 新規MIX依頼**\n\`\`\`\n${cleanDiscord(summary).slice(0,1700)}\n\`\`\``,allowed_mentions:{parse:[]}})
-    })
-  ];
-  const settled=await Promise.allSettled(dest);
-  const ok=[];
-  for(const a of settled){ok.push(a.status==='fulfilled'&&a.value.ok);}
-  if(ok.every(Boolean))return withJson({ok:true,id:requestId});
-  // One notification might have arrived; not claim complete success.
-  console.error('Notification delivery failed', {id:requestId,emailOk:ok[0],discordOk:ok[1]});
-  return withJson({error:'通知処理の一部が失敗しました。内容が届いている可能性があるため、再送せずXのDMでご確認ください。'},502);
+  
+  let sent = false;
+
+  try {
+    const response = await fetch(env.DISCORD_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: `**ODOKENE / 新規MIX依頼**\n\`\`\`\n${cleanDiscord(summary).slice(0, 1700)}\n\`\`\``,
+        allowed_mentions: { parse: [] }
+      })
+    });
+
+    sent = response.ok;
+  } catch (error) {
+    console.error('Discord webhook request failed', {
+      id: requestId
+    });
+  }
+
+  if (sent) {
+    return withJson({
+      ok: true,
+      id: requestId
+    });
+  }
+
+  console.error('Discord notification failed', {
+    id: requestId
+  });
+
+  return withJson({
+    error: 'Discordへの通知に失敗した可能性があります。二重送信を避けるため、XのDMでご確認ください。'
+  }, 502);
 }
-export async function onRequestGet(){return withJson({error:'POSTのみ対応しています。'},405);}
+
+export async function onRequestGet() {
+  return withJson({
+    error: 'POSTのみ対応しています。'
+  }, 405);
