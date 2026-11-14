@@ -12,6 +12,15 @@
     const harmony=prices.harmony?.[$('harmony').value] ?? 0;
     const rush=prices.rush?.[$('rush').value] ?? 0;
     $('estimated-price').textContent='¥'+(base+Math.max(0,count-1)*perSinger+harmony+rush).toLocaleString('ja-JP');
+    const extraDays = Math.max(0,count-1)*(prices.delivery?.extraDaysPerSinger ?? 1);
+    const policy=prices.delivery;
+    const type=$('rush').value;
+    if(policy){
+      const days=type==='normal'
+        ? `${policy.normalMinDays+extraDays}〜${policy.normalMaxDays+extraDays}日程度`
+        : `${(type==='72h'?policy.rush72Hours:policy.rush24Hours)+extraDays*24}時間以内`;
+      $('estimated-delivery').textContent=days;
+    }
   }
   fields.forEach(id => $(id)?.addEventListener('change',updatePrice));
   function updateContact(){
