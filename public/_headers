@@ -1,0 +1,6 @@
+# Decap CMS should always load the latest published field definitions.
+/admin/config.yml
+  Cache-Control: no-store, max-age=0
+
+/admin/index.html
+  Cache-Control: no-cache, must-revalidate
