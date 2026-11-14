@@ -1,5 +1,5 @@
 {
-  "displayCount": "4",
-  "autoRotate": false,
-  "displayStyle": "rotation"
+  "displayCount": "2",
+  "autoRotate": true,
+  "displayStyle": "grid"
 }
