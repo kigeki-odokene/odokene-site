@@ -132,3 +132,12 @@
   .calc-summary{padding:16px}
   .calc-total{align-items:center}
 }
+
+/* Singer-adjusted delivery estimates */
+.calc-delivery{border-top:1px solid #cfc5b9;margin-top:14px;padding-top:14px;display:grid;grid-template-columns:1fr auto;gap:0 12px;align-items:baseline}
+.calc-delivery > span{font-size:13px;font-weight:650}
+.calc-delivery > strong{font-size:20px;font-weight:650;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.calc-delivery > small{grid-column:1/-1;font-size:11px;color:var(--muted);text-align:right}
+.estimate-delivery{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--soft)}
+.estimate-delivery span{font-size:13px}
+.estimate-delivery strong{font-size:18px;font-weight:650;font-variant-numeric:tabular-nums}
