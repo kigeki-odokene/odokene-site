@@ -2,10 +2,10 @@
 import copy from '../data/copy.json';
 import pricing from '../data/pricing.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
-const turnstileSiteKey = '0x4AAAAAAGAvU0hVPU6vJpzYXDskxj928hk';
+// The public Turnstile site key is loaded from a Pages Function at runtime.
 ---
 <BaseLayout title="MIXの依頼・相談｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>MIXの依頼・相談</h1><p>{copy.contact.intro}</p></div>
-<div class="contact-columns"><div><form id="mix-request" data-pricing={JSON.stringify(pricing)} data-turnstile-key={turnstileSiteKey} method="post" action="/api/request" novalidate>
+<div class="contact-columns"><div><form id="mix-request" data-pricing={JSON.stringify(pricing)} method="post" action="/api/request" novalidate>
 <p class="form-help">{copy.contact.formHelp}</p>
 <div class="field"><label for="client-name">活動名・お名前 <span class="required">*</span></label><input id="client-name" name="name" autocomplete="nickname" required maxlength="90" placeholder="ハンドルネームでもOK"/></div>
 <div class="field-row"><div class="field"><label for="reply-method">返信方法 <span class="required">*</span></label><select id="reply-method" name="replyMethod"><option value="x">XのDM</option><option value="email">メール</option></select></div><div class="field" id="x-field"><label for="x-handle">XのユーザーID <span class="required" id="x-required">*</span></label><input id="x-handle" name="xHandle" placeholder="@username" maxlength="80" required/></div></div>
@@ -22,13 +22,13 @@ const turnstileSiteKey = '0x4AAAAAAGAvU0hVPU6vJpzYXDskxj928hk';
 <div class="visually-hidden" aria-hidden="true"><label for="company-url">空欄</label><input id="company-url" name="companyUrl" tabindex="-1" autocomplete="off"/></div>
 <p class="fine">{copy.contact.privacyNote}</p>
 <label class="agree"><input name="consent" type="checkbox" value="yes" required/> 上記を確認して送信します <span class="required">*</span></label>
-{turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey}></div>}
-{!turnstileSiteKey && <p class="form-warning">フォームは公開設定前のため送信できません。現在はXのDMからご連絡ください。</p>}
-<button type="submit" class="send-button" id="submit-request" disabled={!turnstileSiteKey}>{turnstileSiteKey?'依頼内容を送信する':'フォーム送信は準備中'}</button>
+<div id="turnstile-container"></div>
+<p class="form-warning" id="form-warning" role="status">認証機能を読み込んでいます。</p>
+<button type="submit" class="send-button" id="submit-request" disabled>フォーム送信は準備中</button>
 <p class="contact-response" id="request-response" role="status" aria-live="polite"></p>
 </form></div>
 <aside class="contact-aside"><h2>XのDM</h2><p>{copy.contact.dmText}</p><p><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">@kigeki_odokene ↗</a></p><hr/><p class="fine">基本料金：{pricing.one.base.toLocaleString('ja-JP')}円〜<br/>通常納期：7〜14日程度<br/>お支払い：最終納品後、銀行振込</p><p class="quiet-link"><a href="/faq/">注意事項を見る ↗</a></p></aside>
 </div></div>
-{turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
 <script is:inline src="/js/contact.js" defer></script>
 </BaseLayout>
