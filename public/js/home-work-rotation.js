@@ -9,11 +9,13 @@
   const counter = rotator.querySelector('[data-slide-count]');
   const previous = rotator.querySelector('[data-slide-prev]');
   const next = rotator.querySelector('[data-slide-next]');
+  const pause = rotator.querySelector('[data-slide-pause]');
   const modal = document.getElementById('work-player');
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
   const interval = Math.max(4000, Number(rotator.dataset.interval) || 8000);
   let current = 0;
   let timer;
+  let userPaused = false;
 
   function show(index) {
     current = (index + slides.length) % slides.length;
@@ -26,8 +28,8 @@
   }
 
   function autoAdvance() {
-    if (document.hidden || reducedMotion?.matches || modal?.open) return;
-    if (rotator.matches(':hover') || rotator.matches(':focus-within')) return;
+    if (document.hidden || userPaused || reducedMotion?.matches || modal?.open) return;
+    if (rotator.matches(':hover') || rotator.querySelector(':focus-visible')) return;
     show(current + 1);
   }
 
@@ -36,6 +38,14 @@
     timer = window.setInterval(autoAdvance, interval);
   }
 
+  pause?.addEventListener('click', () => {
+    userPaused = !userPaused;
+    pause.setAttribute('aria-pressed', String(userPaused));
+    pause.setAttribute('aria-label', userPaused ? '自動切り替えを再開' : '自動切り替えを一時停止');
+    pause.title = pause.getAttribute('aria-label');
+    pause.textContent = userPaused ? '▶' : 'Ⅱ';
+    restart();
+  });
   previous?.addEventListener('click', () => { show(current - 1); restart(); });
   next?.addEventListener('click', () => { show(current + 1); restart(); });
   dots.forEach((dot) => dot.addEventListener('click', () => {
