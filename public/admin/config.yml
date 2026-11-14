@@ -292,15 +292,15 @@ collections:
       - label: 動画URL（YouTubeまたはX）
         name: videoUrl
         widget: string
-        hint: YouTubeの動画URL、または動画付きXポストのURL。1作品につき1本登録し、作品を増やすとHOMEで複数表示できます。
+        hint: YouTube動画、または動画付きXポストのURLを登録してください。作品を追加するとHOMEで複数表示できます。
         pattern:
-        - '^https://(www\\.)?(youtube\\.com/|youtu\\.be/|x\\.com/|twitter\\.com/|mobile\\.twitter\\.com/).+'
+        - '^https://(www\.)?(youtube\.com/|youtu\.be/|x\.com/|twitter\.com/|mobile\.twitter\.com/).+'
         - YouTubeまたはXの動画・投稿URLを入力してください
-      - label: サムネイル画像（任意・未設定ならYouTubeの画像）
+      - label: サムネイル画像（任意）
         name: thumbnail
         widget: image
         required: false
-        hint: YouTubeの画像が使えないときだけアップロードしてください
+        hint: YouTubeは画像を自動取得。Xの動画では必要に応じて画像をアップロードできます。
       - label: 担当表記（自由入力）
         name: creditText
         widget: string
