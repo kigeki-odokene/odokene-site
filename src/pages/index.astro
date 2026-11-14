@@ -4,11 +4,17 @@ import pricing from '../data/pricing.json';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import works from '../data/works.json';
 import WorkCard from '../components/WorkCard.astro';
+import WorkPlayer from '../components/WorkPlayer.astro';
+import homeSettings from '../data/home-settings.json';
+import { getWorkVideo, workCreditText } from '../lib/work-video.mjs';
 const allWorks = works.works || [];
 const featured = allWorks.find(w => w.featured) ?? allWorks[0];
-const moreWorks = allWorks.filter(w => w !== featured).slice(0,3);
-const ytId=featured?.youtubeUrl.match(/(?:v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{11})/)?.[1];
-const heroThumb = featured?.thumbnail?.trim() || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : '');
+const orderedWorks = featured ? [featured, ...allWorks.filter(w => w !== featured)] : [];
+const displayCount = [1, 3, 4].includes(Number(homeSettings.displayCount)) ? Number(homeSettings.displayCount) : 1;
+const selectedWorks = orderedWorks.slice(0, displayCount);
+const featuredVideo = featured ? getWorkVideo(featured) : null;
+const featuredCredit = featured ? workCreditText(featured) : '';
+
 ---
 <BaseLayout title="ODOKENE｜歌ってみたMIXのご依頼">
 <div class="shell homepage">
@@ -21,26 +27,29 @@ const heroThumb = featured?.thumbnail?.trim() || (ytId ? `https://i.ytimg.com/vi
     </div>
     <section class="hello-work" id="works">
       <div class="piece-top"><h2>{copy.home.worksTitle}</h2><a href="/works/">一覧を見る</a></div>
-      {featured && <div class="featured-row">
-        <a href={featured.youtubeUrl} class="work-visual" target="_blank" rel="noopener noreferrer" aria-label={`${featured.title}をYouTubeで見る`}>
-          <div class="work-fallback"><span class="work-fallback-title">{featured.title}</span><span class="work-fallback-credit">歌：{featured.cover}</span></div>
-          {heroThumb && <img src={heroThumb} alt={`${featured.title}の動画サムネイル`} loading="eager" fetchpriority="high" decoding="async" onerror="this.hidden=true"/>}
+      {featured && displayCount === 1 && <div class="featured-row">
+        <a href={featuredVideo.url} class="work-visual js-work-play" data-video-platform={featuredVideo.type} data-video-id={featuredVideo.id || ''} data-video-title={featured.title} target="_blank" rel="noopener noreferrer" aria-label={`${featured.title}の動画を再生する`}>
+          <div class="work-fallback">
+            <span class="work-fallback-label">{featuredVideo.label}</span>
+            <span class="work-fallback-title">{featured.title}</span>
+            <span class="work-fallback-credit">歌：{featured.cover}</span>
+          </div>
+          {featuredVideo.thumb && <img src={featuredVideo.thumb} alt={`${featured.title}のサムネイル`} loading="eager" fetchpriority="high" decoding="async" onerror="this.hidden=true"/>}
           <span class="thumb-play" aria-hidden="true">▶</span>
         </a>
         <div class="featured-info">
           <h3>{featured.title}</h3>
           <p>原曲：{featured.original}</p>
           <p>歌：{featured.cover}</p>
-          <p>担当：{(featured.credits || []).join(' / ') || 'MIX'}（ODOKENE）</p>
-          <p><a href={featured.youtubeUrl} target="_blank" rel="noopener noreferrer">YouTubeで見る</a></p>
+          {featuredCredit && <p>担当：{featuredCredit}</p>}
+          <p><a class="js-work-play" href={featuredVideo.url} data-video-platform={featuredVideo.type} data-video-id={featuredVideo.id || ''} data-video-title={featured.title} target="_blank" rel="noopener noreferrer">{featuredVideo.label}で見る</a></p>
         </div>
+      </div>}
+      {displayCount !== 1 && selectedWorks.length > 0 && <div class:list={['home-works-grid', `home-works-grid--${displayCount}`]}>
+        {selectedWorks.map(work => <WorkCard work={work} />)}
       </div>}
     </section>
   </div>
-  {moreWorks.length > 0 && <section class="more-works" aria-label="その他の制作実績">
-    <div class="more-works-head"><h2>{copy.home.otherWorksTitle}</h2><a href="/works/">一覧を見る</a></div>
-    <div class="more-works-list">{moreWorks.map(work => <WorkCard work={work} size="small" />)}</div>
-  </section>}
   <section class="home-part rates" id="price">
     <div class="section-aside"><h2>{copy.home.ratesTitle}</h2><p class="aside-hint">{copy.home.ratesLabel}</p></div>
     <div class="section-body">
@@ -62,4 +71,5 @@ const heroThumb = featured?.thumbnail?.trim() || (ytId ? `https://i.ytimg.com/vi
   </section>
   <section class="home-part last-part"><div class="section-aside"><h2>{copy.home.contactTitle}</h2></div><div class="section-body"><p>{copy.home.contact1}<br/>{copy.home.contact2}</p><p class="end-links"><a href="/contact/">依頼フォーム</a><a href="https://x.com/kigeki_odokene" target="_blank" rel="noopener noreferrer">XのDM（@kigeki_odokene）</a></p></div></section>
 </div>
+<WorkPlayer />
 </BaseLayout>
