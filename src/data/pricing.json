@@ -22,7 +22,6 @@
     "normalMaxDays": 14,
     "rush72Hours": 72,
     "rush24Hours": 24,
-    "extraDaysPerSinger": 0.5,
-    "rushExtraHoursPerSinger": 8
+    "extraDaysPerSinger": 0.5
   }
 }
