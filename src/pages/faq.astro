@@ -5,6 +5,6 @@ import pricing from '../data/pricing.json';
 
 ---
 <BaseLayout title="よくある質問・注意事項｜ODOKENE"><div class="shell subpage"><div class="page-intro"><p class="small-label">ODOKENE</p><h1>よくある質問</h1><p>{copy.faq.intro}</p></div>
-<section class="subsection"><div class="section-aside"><h2>Q & A</h2></div><div class="section-body">{copy.faq.questions.map(item=><details class="faq-item"><summary>{item.question}</summary><p>{item.answer}</p></details>)}<p class="fine">納期はボーカル2人目以降、1名追加ごとに＋{pricing.delivery.extraDaysPerSinger * 24}時間（2名追加で＋{pricing.delivery.extraDaysPerSinger * 2}日）です。<a href="/price/#estimate">料金・納期の概算を計算する</a></p></div></section>
+<section class="subsection"><div class="section-aside"><h2>Q & A</h2></div><div class="section-body">{copy.faq.questions.map(item=><details class="faq-item"><summary>{item.question}</summary><p>{item.answer}</p></details>)}<p class="fine">納期延長は、通常：追加1名ごとに＋{pricing.delivery.extraDaysPerSinger * 24}時間／お急ぎ：追加1名ごとに＋{pricing.delivery.rushExtraHoursPerSinger}時間です。超特急は要相談。<a href="/price/#estimate">料金・納期の概算を計算する</a></p></div></section>
 <section class="subsection"><div class="section-aside"><h2>キャンセルについて</h2></div><div class="section-body"><p>{copy.faq.cancelText}</p><p class="fine">{copy.faq.cancelNote}</p></div></section>
 <section class="subsection"><div class="section-aside"><h2>お問い合わせ</h2></div><div class="section-body"><p>{copy.faq.contactText}</p><p class="quiet-link"><a href="/contact/">お問い合わせはこちら ↗</a></p></div></section></div></BaseLayout>
