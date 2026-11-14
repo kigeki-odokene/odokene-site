@@ -2,7 +2,7 @@
   const form = document.getElementById('mix-request');
   if (!form) return;
   const $ = (id) => document.getElementById(id);
-  const fields = ['plan','singers','harmony','rush'];
+  const fields = ['plan','singers','harmony','rush','video'];
   const prices = JSON.parse(form.dataset.pricing || '{}');
   function updatePrice() {
     const plan=$('plan').value;
@@ -13,7 +13,8 @@
     const type=$('rush').value;
     const superExpress=type==='24h';
     const rushFee=(prices.rush?.[type] ?? 0)*(type==='normal'?1:count);
-    const total=base+Math.max(0,count-1)*perSinger+harmony+rushFee;
+    const videoFee=prices.video?.[$('video').value] ?? 0;
+    const total=base+Math.max(0,count-1)*perSinger+harmony+rushFee+videoFee;
     $('estimated-price').textContent='¥'+total.toLocaleString('ja-JP')+(superExpress ? '（目安）' : '');
     const policy=prices.delivery;
     if(policy){
@@ -26,7 +27,16 @@
       $('estimated-delivery').textContent=delivery;
     }
   }
+  function updateVideoRights() {
+    const needRights=$('video').value==='encode';
+    const rightsField=$('video-rights-field');
+    const rights=$('video-rights');
+    rightsField.hidden=!needRights;
+    rights.required=needRights;
+    if(!needRights)rights.checked=false;
+  }
   fields.forEach(id => $(id)?.addEventListener('change',updatePrice));
+  $('video')?.addEventListener('change',updateVideoRights);
   function updateContact(){
     const isX=$('reply-method').value==='x';
     $('x-handle').required=isX;
@@ -47,7 +57,7 @@
       input.value = value;
     }
   }
-  updateContact(); updatePrice();
+  updateContact(); updateVideoRights(); updatePrice();
   // Load the public site key from Cloudflare Pages Functions, not a build-time variable.
   // Never expose the Turnstile secret key in the browser.
   async function initTurnstile() {
@@ -104,7 +114,7 @@
       const json=await response.json();
       if(!response.ok) throw new Error(json.error || '送信できませんでした。');
       info.dataset.state='success'; info.textContent='依頼内容を送信しました。返信をお待ちください。';
-      form.reset();updateContact();updatePrice();
+      form.reset();updateContact();updateVideoRights();updatePrice();
     }catch(err){info.dataset.state='error';info.textContent=(err?.message || '送信できませんでした。')+' お急ぎの場合はXのDMをご利用ください。';}
     finally{button.disabled=false;button.textContent='依頼内容を送信する ↗'; if(window.turnstile) window.turnstile.reset();}
   });
