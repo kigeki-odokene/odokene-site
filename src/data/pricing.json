@@ -14,8 +14,7 @@
   },
   "rush": {
     "normal": 0,
-    "72h": 2000,
-    "24h": 4000
+    "72h": 2000
   },
   "maxSingers": 16,
   "delivery": {
@@ -23,6 +22,7 @@
     "normalMaxDays": 14,
     "rush72Hours": 72,
     "rush24Hours": 24,
-    "extraDaysPerSinger": 0.5
+    "extraDaysPerSinger": 0.5,
+    "rushExtraHoursPerSinger": 8
   }
 }
