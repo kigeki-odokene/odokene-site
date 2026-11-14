@@ -49,8 +49,8 @@
     output.base.textContent = yen(base);
     output.singer.textContent = yen(extra);
     output.singerRow.hidden = singers === 1;
-    output.harmony.textContent = yen(harmonyPrice);
-    output.harmonyRow.hidden = harmonyPrice === 0;
+    output.harmony.textContent = harmony === 'none' ? 'なし' : '基本料金に含む';
+    output.harmonyRow.hidden = harmony === 'none';
     output.rush.textContent = yen(rushPrice) + (superExpress ? '（目安）' : '');
     output.rushRow.hidden = rush === 'normal';
     output.total.textContent = yen(total) + (superExpress ? '（目安）' : '');
