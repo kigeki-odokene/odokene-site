@@ -25,7 +25,11 @@ collections:
       name: xHandle
       widget: string
       hint: 例：@muen_saltless。先頭の@は省略しても構いません。全ページのDM案内が更新されます。
-      pattern: ['^@?[A-Za-z0-9_]{1,15}
+      pattern: ['^@?[A-Za-z0-9_]{1,15}$', 'XのユーザーIDを入力してください（半角英数字とアンダースコア15文字以内）。']
+    - {label: サイトURL, name: siteUrl, widget: hidden, default: ''}
+    - {label: フォーム状態, name: formStatus, widget: hidden, default: 準備中}
+    - {label: サイト説明文, name: aboutText, widget: text, required: false}
+  - name: homeWorksDisplay
     label: HOMEの動画表示設定
     file: src/data/home-settings.json
     description: 横並びは実績ごとの「HOME横並びに固定表示」をONにした作品を最大1〜4件表示します。ローテーションは登録した実績すべてをメイン枠1つで順番に表示します（手動・自動切り替え可能）。
