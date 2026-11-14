@@ -11,7 +11,7 @@
   const labels = {
     plan: {one: 'ワンコーラス', full: 'フルコーラス'},
     harmony: {none: 'なし', generate: 'ハモリ生成', arrange: 'ハモリ作成・アレンジ'},
-    rush: {normal: '通常', '72h': 'お急ぎ（72時間・1名基準）', '24h': '超特急（24時間希望・要相談）'}
+    rush: {normal: '通常', '72h': 'お急ぎ（72時間固定）', '24h': '超特急（24時間希望・要相談）'}
   };
 
   const output = {
@@ -56,13 +56,13 @@
     output.total.textContent = superExpress ? '要相談' : yen(total);
     const policy = pricing.delivery;
     const extraPeople = singers - 1;
-    const addedHours = rush === '72h'
-      ? extraPeople * policy.rushExtraHoursPerSinger
-      : extraPeople * policy.extraDaysPerSinger * 24;
+    const addedHours = rush === 'normal'
+      ? extraPeople * policy.extraDaysPerSinger * 24
+      : 0;
     const delivery = superExpress
       ? `要相談（${policy.rush24Hours}時間希望）`
       : rush === '72h'
-        ? `${policy.rush72Hours + addedHours}時間以内`
+        ? `${policy.rush72Hours}時間以内`
         : `${policy.normalMinDays + addedHours / 24}〜${policy.normalMaxDays + addedHours / 24}日程度`;
     output.delivery.textContent = delivery;
     const extensionLabel = addedHours % 24 === 0
@@ -70,9 +70,11 @@
       : addedHours < 24 ? `${addedHours}時間` : `${Math.floor(addedHours / 24)}日${addedHours % 24}時間`;
     output.deliveryExtra.textContent = superExpress
       ? '料金・納期・対応可否を確認してご案内します'
-      : extraPeople > 0
-        ? `追加${extraPeople}名による延長：＋${extensionLabel}`
-        : 'ボーカル1名の場合の目安';
+      : rush === '72h'
+        ? 'お急ぎは人数にかかわらず72時間以内（対応可否は内容確認後）'
+        : extraPeople > 0
+          ? `追加${extraPeople}名による延長：＋${extensionLabel}`
+          : '通常納期はボーカル1名の場合の目安';
     summary = [
       labels.plan[plan],
       singers + '人',
