@@ -2,47 +2,30 @@
   "works": [
     {
       "publishedAt": "",
+      "creditText": "MIX / Mastering / Pitch / Timing",
       "thumbnail": "",
       "featured": true,
       "original": "はるまきごはん",
       "videoUrl": "https://www.youtube.com/watch?v=MINNnK8bCq0",
       "cover": "梦煙",
       "title": "彗星になれたなら",
-      "description": "",
-      "creditSelections": [
+      "credits": [
         "MIX",
         "Mastering",
-        "ピッチ補正",
-        "リズム補正"
+        "Pitch / Timing"
       ],
-      "creditExtra": ""
+      "description": ""
     },
     {
       "featured": false,
-      "videoUrl": "https://youtu.be/SK5d1yxE5GM?si=fZQpAtx0h-uE73yg",
       "title": "敗北の少年",
-      "original": "kemu / 堀江晶太",
       "cover": "梦煙",
-      "creditSelections": [
-        "MIX",
-        "Mastering",
-        "ピッチ補正",
-        "リズム補正"
+      "original": "KEMU VOXX / 堀江晶太",
+      "videoUrl": "https://youtu.be/SK5d1yxE5GM?si=slFOGnepj6avwzY5",
+      "credits": [
+        "MIX "
       ],
-      "creditExtra": ""
-    },
-    {
-      "featured": false,
-      "videoUrl": "https://x.com/muen_saltless/status/2120181760168472735/video/1",
-      "title": "ずうっといっしょ！",
-      "original": "キタニタツヤ",
-      "cover": "梦煙",
-      "creditSelections": [
-        "MIX",
-        "ピッチ補正",
-        "リズム補正"
-      ],
-      "creditExtra": ""
+      "creditText": "MIX / Mastering / Pitch / Timing"
     }
   ]
 }
