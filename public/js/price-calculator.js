@@ -10,7 +10,7 @@
   const yen = amount => '¥' + amount.toLocaleString('ja-JP');
   const labels = {
     plan: {one: 'ワンコーラス', full: 'フルコーラス'},
-    harmony: {none: 'なし', generate: 'ハモリ生成', arrange: 'ハモリ作成・アレンジ'},
+    harmony: {none: 'なし', generate: 'ハモリ生成'},
     rush: {normal: '通常', '72h': 'お急ぎ（72時間固定・1人につき追加料金）', '24h': '超特急（24時間希望・1人あたり料金は目安）'}
   };
 
@@ -49,7 +49,7 @@
     output.base.textContent = yen(base);
     output.singer.textContent = yen(extra);
     output.singerRow.hidden = singers === 1;
-    output.harmony.textContent = harmony === 'none' ? 'なし' : '基本料金に含む';
+    output.harmony.textContent = yen(harmonyPrice);
     output.harmonyRow.hidden = harmony === 'none';
     output.rush.textContent = yen(rushPrice) + (superExpress ? '（目安）' : '');
     output.rushRow.hidden = rush === 'normal';
