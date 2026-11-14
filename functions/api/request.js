@@ -14,7 +14,7 @@ function priceFor(x){
  const per=prices[x.plan].extraSinger;
  const harmony=prices.harmony[x.harmony];
  const rush=prices.rush[x.rush] * (x.rush==='normal' ? 1 : x.singers);
- return base+Math.max(0,x.singers-1)*per+harmony+rush;
+ return base+Math.max(0,x.singers-1)*per+harmony+rush+prices.video[x.video];
 }
 export async function onRequestPost({request,env}){
   if(!env?.TURNSTILE_SECRET_KEY || !env.DISCORD_WEBHOOK_URL){
@@ -31,10 +31,12 @@ export async function onRequestPost({request,env}){
     xHandle:str(data.xHandle,80),email:str(data.email,180),
     plan:str(data.plan,10),singers:Number(data.singers),
     harmony:str(data.harmony,15),rush:str(data.rush,10),
+    video:str(data.video??'none',10),videoRights:data.videoRights,
     songTitle:str(data.songTitle,160),materialsUrl:str(data.materialsUrl,600),
     wishDate:str(data.wishDate,10),message:str(data.message,2500),consent:data.consent
   };
-  if(!x.name || !['x','email'].includes(x.replyMethod) || !['one','full'].includes(x.plan) || !Number.isInteger(x.singers) || x.singers<1 || x.singers>prices.maxSingers || !['none','generate'].includes(x.harmony) || !['normal','72h','24h'].includes(x.rush) || x.consent!=='yes') return withJson({error:'必須項目をご確認ください。'},400);
+  if(!x.name || !['x','email'].includes(x.replyMethod) || !['one','full'].includes(x.plan) || !Number.isInteger(x.singers) || x.singers<1 || x.singers>prices.maxSingers || !['none','generate'].includes(x.harmony) || !['normal','72h','24h'].includes(x.rush) || !['none','encode'].includes(x.video) || x.consent!=='yes') return withJson({error:'必須項目をご確認ください。'},400);
+  if(x.video==='encode' && x.videoRights!=='yes')return withJson({error:'動画納品には、編集・納品に必要な映像利用許諾の確認が必要です。'},400);
   if((x.replyMethod==='x'&&!/^@?[A-Za-z0-9_]{1,15}$/.test(x.xHandle)) || (x.replyMethod==='email'&&!isMail(x.email)) || (x.email&&!isMail(x.email)) || !isoDate(x.wishDate)) return withJson({error:'返信先または納品日の入力をご確認ください。'},400);
   if(x.materialsUrl){try{const url=new URL(x.materialsUrl);if(!['https:','http:'].includes(url.protocol))throw 0;}catch{return withJson({error:'素材URLの形式をご確認ください。'},400);}}
   // Verify bot protection on the server, fail closed when misconfigured.
@@ -52,6 +54,8 @@ export async function onRequestPost({request,env}){
     `X: ${x.xHandle || '(未入力)'}`,`メール: ${x.email || '(未入力)'}`,
     `プラン: ${x.plan==='one'?'ワンコーラス':'フルコーラス'}`,
     `ボーカル人数: ${x.singers}名`,`ハモリ: ${x.harmony}`,
+    `動画エンコード: ${x.video==='encode'?'希望（+'+prices.video.encode.toLocaleString('ja-JP')+'円／本・映像の権利確認が必要）':'なし'}`,
+    `映像利用許諾の申告: ${x.video==='encode'?'申告あり（個別確認必要）':'対象外'}`,
     `納期オプション: ${x.rush==='24h'?'超特急（要相談）':x.rush==='72h'?'お急ぎ（72時間基準）':'通常'}`,
     `初回納品目安（人数加算済み）: ${estimateDelivery(prices,x.singers,x.rush)}`,
     `概算（税込）: ${priceFor(x).toLocaleString('ja-JP')}円${x.rush==='24h'?'（超特急は目安・正式料金要相談）':''}`,`曲名: ${x.songTitle || '(未入力)'}`,
