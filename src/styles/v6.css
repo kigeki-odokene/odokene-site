@@ -156,6 +156,8 @@
 .featured-rotation-dots{display:flex;flex-wrap:wrap;gap:7px}
 .featured-rotation-dots button{width:29px;height:29px;border:1px solid var(--soft);background:transparent;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer;border-radius:2px}
 .featured-rotation-dots button[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.featured-rotation-arrows button[data-slide-pause]{font-size:14px;margin-left:6px}
+.featured-rotation-arrows button[data-slide-pause][aria-pressed="true"]{background:#ece6dd;border-color:#cfc6bc}
 .featured-rotation-arrows button:hover,.featured-rotation-dots button:hover:not([aria-current="true"]){border-color:var(--orange);color:var(--orange)}
 .featured-rotation-controls button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
 @media(max-width:700px){.featured-rotation-controls{margin-top:12px}.featured-rotation-arrows button{width:36px;height:36px}.featured-rotation-dots button{width:32px;height:32px}}
