@@ -1,4 +1,5 @@
 {
   "displayCount": "4",
-  "autoRotate": true
+  "autoRotate": true,
+  "displayStyle": "rotation"
 }
