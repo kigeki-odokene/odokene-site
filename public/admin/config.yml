@@ -16,16 +16,23 @@ collections:
   - name: homeWorksDisplay
     label: HOMEの動画表示設定
     file: src/data/home-settings.json
-    description: HOMEの制作実績は大きなメイン枠1本で表示します。3本・4本を登録した場合、自動切り替えのON/OFFを選択できます。OFFでも左右ボタンで手動切り替えできます。
+    description: HOMEの制作実績は、1本なら大きなメイン枠、3本・4本なら「横並び」または「メイン1本で切り替え」を選択できます。ローテーション表示時のみ自動切り替えのON/OFFが適用されます。
     fields:
     - label: HOMEに表示する動画数
       name: displayCount
       widget: select
       options:
       - {label: '1本（大きく表示）', value: '1'}
-      - {label: '3本（メイン枠で切り替え）', value: '3'}
-      - {label: '4本（メイン枠で切り替え）', value: '4'}
-    - label: 自動ローテーションする（8秒ごと）
+      - {label: '3本', value: '3'}
+      - {label: '4本', value: '4'}
+    - label: 動画の表示スタイル
+      name: displayStyle
+      widget: select
+      default: rotation
+      options:
+      - {label: '横並び（従来の一覧表示）', value: 'grid'}
+      - {label: 'ローテーション（メイン1本を切り替え）', value: 'rotation'}
+    - label: ローテーション表示時に自動切り替えする（8秒ごと）
       name: autoRotate
       widget: boolean
       default: true
