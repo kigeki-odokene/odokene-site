@@ -11,7 +11,7 @@
   const labels = {
     plan: {one: 'ワンコーラス', full: 'フルコーラス'},
     harmony: {none: 'なし', generate: 'ハモリ生成', arrange: 'ハモリ作成・アレンジ'},
-    rush: {normal: '通常', '72h': 'お急ぎ（72時間固定）', '24h': '超特急（24時間希望・料金は目安）'}
+    rush: {normal: '通常', '72h': 'お急ぎ（72時間固定・1人につき追加料金）', '24h': '超特急（24時間希望・1人あたり料金は目安）'}
   };
 
   const output = {
@@ -44,7 +44,7 @@
     const extra = (singers - 1) * pricing[plan].extraSinger;
     const harmonyPrice = pricing.harmony[harmony];
     const superExpress = rush === '24h';
-    const rushPrice = pricing.rush[rush];
+    const rushPrice = pricing.rush[rush] * (rush === 'normal' ? 1 : singers);
     const total = base + extra + harmonyPrice + rushPrice;
     output.base.textContent = yen(base);
     output.singer.textContent = yen(extra);
@@ -98,7 +98,7 @@
       '\nお急ぎ・超特急：' + output.rush.textContent +
       '\n合計：' + output.total.textContent +
       '\n初回納品の目安：' + output.delivery.textContent +
-      '\n※超特急の表示金額は目安です。正式な料金・納期・対応可否はご相談のうえ決定します。';
+      '\n※お急ぎ・超特急の追加料金はボーカル人数分加算します。超特急の金額は目安で、正式な料金・納期・対応可否はご相談のうえ決定します。';
     try {
       await navigator.clipboard.writeText(content);
       output.copyResult.textContent = '計算内容をコピーしました。';
