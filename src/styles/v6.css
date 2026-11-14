@@ -300,3 +300,12 @@
     min-height:0;
   }
 }
+
+/* About profile — understated, consistent with the text-first design. */
+.about-profile{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:22px}
+.about-profile:not(:has(.about-profile-image)){display:block}
+.about-profile-image{width:150px;max-width:100%;aspect-ratio:1;object-fit:cover;border:1px solid var(--soft);border-radius:3px}
+.about-profile h3{margin:0 0 8px;font-size:20px}
+.about-profile-role{color:var(--muted);font-size:13px;margin:0 0 14px}
+.about-profile-bio{white-space:pre-line;overflow-wrap:anywhere}
+@media(max-width:540px){.about-profile{grid-template-columns:1fr;gap:16px}.about-profile-image{width:130px}}
