@@ -7,7 +7,7 @@ export function getWorkVideo(work = {}) {
   const hostname = url.hostname.toLowerCase().replace(/^www\./, '');
   const parts = url.pathname.split('/').filter(Boolean);
   let id = '';
-  if (hostname === 'youtu.be') id = parts[0] || '';
+  if (hostname === 'youtu.be' || hostname === 'www.youtu.be') id = parts[0] || '';
   if (hostname === 'youtube.com' || hostname === 'm.youtube.com' || hostname === 'music.youtube.com') {
     if (parts[0] === 'watch') id = url.searchParams.get('v') || '';
     if (['shorts', 'live', 'embed'].includes(parts[0])) id = parts[1] || '';
@@ -21,10 +21,10 @@ export function getWorkVideo(work = {}) {
       thumb: String(work.thumbnail || '').trim() || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
     };
   }
-  if (['x.com', 'twitter.com', 'mobile.twitter.com'].includes(hostname)) {
+  if (['x.com', 'mobile.x.com', 'twitter.com', 'mobile.twitter.com'].includes(hostname)) {
     const statusIndex = parts.findIndex(part => part === 'status');
     const postId = parts[statusIndex + 1] || '';
-    if (statusIndex > 0 && /^\d+$/.test(postId)) {
+    if (statusIndex > 0 && /^\d{5,}$/.test(postId)) {
       return {
         type: 'x',
         url: `https://x.com/${parts[0]}/status/${postId}`,
