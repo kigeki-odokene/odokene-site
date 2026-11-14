@@ -262,13 +262,24 @@ collections:
   - name: pricing
     label: 料金の数値
     file: src/data/pricing.json
-    description: この数値はトップページ・料金表・依頼フォーム・見積計算に反映されます。文章内に手入力した金額も必要に応じて直してください。
+    description: 料金と納期の数値が、トップページ・料金表・依頼フォーム・概算計算に反映されます。納期も人数で自動計算します。文章内に手入力した数字は必要に応じて確認してください。
     fields:
     - {label: ワンコーラス, name: one, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
     - {label: フルコーラス, name: full, widget: object, fields: [{label: 基本料金, name: base, widget: number, value_type: int, min: 0}, {label: 追加ボーカル1名, name: extraSinger, widget: number, value_type: int, min: 0}]}
     - {label: ハモリ追加料金, name: harmony, widget: object, fields: [{label: ハモリなし, name: none, widget: number, value_type: int, min: 0}, {label: ハモリ生成, name: generate, widget: number, value_type: int, min: 0}, {label: 作成・アレンジ, name: arrange, widget: number, value_type: int, min: 0}]}
     - {label: お急ぎ追加料金, name: rush, widget: object, fields: [{label: 通常, name: normal, widget: number, value_type: int, min: 0}, {label: 72時間以内, name: '72h', widget: number, value_type: int, min: 0}, {label: 24時間以内, name: '24h', widget: number, value_type: int, min: 0}]}
     - {label: ボーカル人数の上限, name: maxSingers, widget: number, value_type: int, min: 1, max: 16}
+    - label: 納期の設定
+      name: delivery
+      widget: object
+      hint: 納期は必要な素材がすべて揃った時点から数えます。2人目以降の加算日数は通常・特急のどちらにも適用されます。
+      fields:
+      - {label: 通常納期の最短日数（1名）, name: normalMinDays, widget: number, value_type: int, min: 1}
+      - {label: 通常納期の最長日数（1名）, name: normalMaxDays, widget: number, value_type: int, min: 1}
+      - {label: 72時間オプションの基準時間（1名）, name: rush72Hours, widget: number, value_type: int, min: 1}
+      - {label: 24時間オプションの基準時間（1名）, name: rush24Hours, widget: number, value_type: int, min: 1}
+      - {label: 2人目以降1名あたりの追加日数, name: extraDaysPerSinger, widget: number, value_type: int, min: 0}
+
   - name: works
     label: 制作実績・表示順
     file: src/data/works.json
