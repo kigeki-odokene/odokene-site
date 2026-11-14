@@ -1,4 +1,5 @@
 import prices from '../../src/data/pricing.json';
+import { estimateDelivery } from '../../src/lib/delivery.mjs';
 // Cloudflare Pages Functions: form endpoint. Secrets are set only on Cloudflare.
 // Production requires TURNSTILE_SECRET_KEY and DISCORD_WEBHOOK_URL.
 // Keep secret values in Cloudflare Pages variables, never in this repository.
@@ -50,7 +51,8 @@ export async function onRequestPost({request,env}){
     `受付ID: ${requestId}`,`お名前: ${x.name}`,`返信方法: ${x.replyMethod==='x'?'X DM':'メール'}`,
     `X: ${x.xHandle || '(未入力)'}`,`メール: ${x.email || '(未入力)'}`,
     `プラン: ${x.plan==='one'?'ワンコーラス':'フルコーラス'}`,
-    `ボーカル人数: ${x.singers}名`,`ハモリ: ${x.harmony}`,`納期: ${x.rush}`,
+    `ボーカル人数: ${x.singers}名`,`ハモリ: ${x.harmony}`,`納期オプション: ${x.rush}`,
+    `初回納品目安（人数加算済み）: ${estimateDelivery(prices,x.singers,x.rush)}`,
     `概算（税込）: ${priceFor(x).toLocaleString('ja-JP')}円`,`曲名: ${x.songTitle || '(未入力)'}`,
     `素材URL: ${x.materialsUrl || '(後日)'}`,`希望納品日: ${x.wishDate || '(未指定)'}`,
     `ご相談内容:\n${x.message || '(未入力)'}`
