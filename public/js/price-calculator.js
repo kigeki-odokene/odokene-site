@@ -11,7 +11,8 @@
   const labels = {
     plan: {one: 'ワンコーラス', full: 'フルコーラス'},
     harmony: {none: 'なし', generate: 'ハモリ生成'},
-    rush: {normal: '通常', '72h': 'お急ぎ（72時間固定・1人につき追加料金）', '24h': '超特急（24時間希望・1人あたり料金は目安）'}
+    rush: {normal: '通常', '72h': 'お急ぎ（72時間固定・1人につき追加料金）', '24h': '超特急（24時間希望・1人あたり料金は目安）'},
+    video: {none: '音声ファイルのみ', encode: '動画エンコード（許諾済み素材）'}
   };
 
   const output = {
@@ -21,6 +22,8 @@
     harmony: document.getElementById('calc-harmony'),
     harmonyRow: document.getElementById('calc-harmony-row'),
     rush: document.getElementById('calc-rush'),
+    video: document.getElementById('calc-video'),
+    videoRow: document.getElementById('calc-video-row'),
     rushRow: document.getElementById('calc-rush-row'),
     total: document.getElementById('calc-total'),
     note: document.getElementById('calc-selection'),
@@ -37,15 +40,17 @@
     const singers = Number(get('singers').value);
     const harmony = get('harmony').value;
     const rush = get('rush').value;
+    const video = get('video').value;
     if (!pricing[plan] || !Number.isInteger(singers) || singers < 1 || singers > pricing.maxSingers ||
-        !(harmony in pricing.harmony) || !['normal','72h','24h'].includes(rush)) return;
+        !(harmony in pricing.harmony) || !(video in pricing.video) || !['normal','72h','24h'].includes(rush)) return;
 
     const base = pricing[plan].base;
     const extra = (singers - 1) * pricing[plan].extraSinger;
     const harmonyPrice = pricing.harmony[harmony];
     const superExpress = rush === '24h';
     const rushPrice = pricing.rush[rush] * (rush === 'normal' ? 1 : singers);
-    const total = base + extra + harmonyPrice + rushPrice;
+    const videoPrice = pricing.video[video];
+    const total = base + extra + harmonyPrice + rushPrice + videoPrice;
     output.base.textContent = yen(base);
     output.singer.textContent = yen(extra);
     output.singerRow.hidden = singers === 1;
@@ -53,6 +58,8 @@
     output.harmonyRow.hidden = harmony === 'none';
     output.rush.textContent = yen(rushPrice) + (superExpress ? '（目安）' : '');
     output.rushRow.hidden = rush === 'normal';
+    output.video.textContent = yen(videoPrice);
+    output.videoRow.hidden = video === 'none';
     output.total.textContent = yen(total) + (superExpress ? '（目安）' : '');
     const policy = pricing.delivery;
     const extraPeople = singers - 1;
@@ -79,10 +86,11 @@
       labels.plan[plan],
       singers + '人',
       labels.harmony[harmony],
-      labels.rush[rush]
+      labels.rush[rush],
+      labels.video[video]
     ].join(' / ');
     output.note.textContent = summary;
-    const params = new URLSearchParams({plan, singers: String(singers), harmony, rush});
+    const params = new URLSearchParams({plan, singers: String(singers), harmony, rush, video});
     output.request.href = '/contact/?' + params.toString();
     output.copyResult.textContent = '';
   }
@@ -96,6 +104,7 @@
       '\n追加ボーカル：' + output.singer.textContent +
       '\nハモリ：' + output.harmony.textContent +
       '\nお急ぎ・超特急：' + output.rush.textContent +
+      '\n動画エンコード：' + output.video.textContent +
       '\n合計：' + output.total.textContent +
       '\n初回納品の目安：' + output.delivery.textContent +
       '\n※お急ぎ・超特急の追加料金はボーカル人数分加算します。超特急の金額は目安で、正式な料金・納期・対応可否はご相談のうえ決定します。';
