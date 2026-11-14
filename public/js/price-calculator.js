@@ -59,8 +59,12 @@
       ? `${policy.normalMinDays + addedDays}〜${policy.normalMaxDays + addedDays}日程度`
       : `${(rush === '72h' ? policy.rush72Hours : policy.rush24Hours) + 24 * addedDays}時間以内`;
     output.delivery.textContent = delivery;
+    const addedHours = Math.round(addedDays * 24);
+    const extensionLabel = addedHours % 24 === 0
+      ? `${addedHours / 24}日`
+      : addedHours < 24 ? `${addedHours}時間` : `${Math.floor(addedHours / 24)}日${addedHours % 24}時間`;
     output.deliveryExtra.textContent = singers > 1
-      ? `追加${singers - 1}名による延長：＋${addedDays}日`
+      ? `追加${singers - 1}名による延長：＋${extensionLabel}`
       : 'ボーカル1名の場合の目安';
     summary = [
       labels.plan[plan],
