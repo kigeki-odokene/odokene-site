@@ -42,7 +42,8 @@
     {
       "creditSelections": [
         "MIX",
-        "ピッチ補正"
+        "ピッチ補正",
+        "リズム補正"
       ],
       "featured": false,
       "title": "ずうっといっしょ！",
