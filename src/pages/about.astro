@@ -14,15 +14,15 @@ const dmUrl = `https://x.com/${dmHandle.slice(1)}`;
       <p>{copy.about.intro}</p>
     </div>
     <section class="subsection">
-      <div class="section-aside"><h2>プロフィール</h2></div>
+      <div class="section-aside about-profile-aside">
+        <h2>プロフィール</h2>
+        {profile.image && <img class="about-profile-image" src={profile.image} alt={profile.imageAlt || `${profile.name || 'プロフィール'}の画像`} loading="lazy" />}
+      </div>
       <div class="section-body">
         <div class="about-profile">
-          {profile.image && <img class="about-profile-image" src={profile.image} alt={profile.imageAlt || `${profile.name || 'プロフィール'}の画像`} loading="lazy" />}
-          <div>
-            <h3>{profile.name || site.creator}</h3>
-            {profile.role && <p class="about-profile-role">{profile.role}</p>}
-            {profile.bio && <p class="about-profile-bio">{profile.bio}</p>}
-          </div>
+          <h3>{profile.name || site.creator}</h3>
+          {profile.role && <p class="about-profile-role">{profile.role}</p>}
+          {profile.bio && <p class="about-profile-bio">{profile.bio}</p>}
         </div>
       </div>
     </section>
